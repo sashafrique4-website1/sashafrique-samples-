@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Graduation Kente Pattern Gallery — Sash Afrique</title>
+<meta name="description" content="Browse the Sash Afrique graduation kente pattern collection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="view-gallery">
+
+<div class="topbar">
+  <a class="brand" href="index.html">
+    <img class="brand-mark" src="logo.png" alt="Sash Afrique Ltd">
+  </a>
+  <a class="topbar-link" href="https://www.sashafrique.com/" target="_blank" rel="noopener">sashafrique.com</a>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">Pattern Gallery</div>
+  <h1 class="hero-title">Graduation <em>Kente</em><br>Pattern Collection</h1>
+  <p class="hero-sub">Browse the patterns curated for graduation sashes. Tap a pattern to see it up close and its story.</p>
+  <div class="hero-count" id="patternCount">Loading patterns…</div>
+</section>
+
+<main class="gallery" id="gallery"></main>
+
+<div class="admin-entry"><a href="admin.html">Admin</a></div>
+<footer class="site-footer">
+  <p>SASH <span class="gold">AFRIQUE</span> &middot; Handcrafted in Ghana &middot; © 2026</p>
+</footer>
+
+<script src="patterns.js"></script>
+<script>
+(async function(){
+  const gallery = document.getElementById('gallery');
+  let PATTERNS = [];
+  try {
+    const res = await fetch('patterns.json');
+    const data = await res.json();
+    PATTERNS = data.patterns || [];
+  } catch (e) {
+    document.getElementById('patternCount').textContent = 'Could not load patterns.';
+    return;
+  }
+  document.getElementById('patternCount').textContent = PATTERNS.length + ' patterns';
+
+  PATTERNS.forEach((p, idx) => {
+    const imgs = patternImages(p);
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = 'pattern.html?id=' + encodeURIComponent(p.id);
+    card.style.animationDelay = (Math.min(idx,10) * 0.04) + 's';
+    card.innerHTML = `
+      <div class="card-frame">
+        <img src="${imgs[0]}" alt="${p.name} kente pattern" loading="lazy" draggable="false">
+        <div class="watermark"></div>
+        <div class="watermark-text">SASH AFRIQUE · SASH AFRIQUE</div>
+      </div>
+      <div class="card-name">${p.name}</div>
+    `;
+    gallery.appendChild(card);
+  });
+})();
+
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('dragstart', e => e.preventDefault());
+document.addEventListener('selectstart', e => {
+  if (e.target && e.target.closest('.gallery')) e.preventDefault();
+});
+</script>
+</body>
+</html>

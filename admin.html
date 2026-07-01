@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Sash Afrique Pattern Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Admin-only additions not needed on the public pages */
+  .connect-card{
+    background:var(--panel); border:1px solid var(--hairline); border-radius:var(--radius);
+    padding:20px; margin-bottom:24px;
+  }
+  .connect-card.connected{ border-color:rgba(250,178,2,.4); }
+  .connect-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  .connect-field{ flex:1; min-width:140px; }
+  .connect-field label{ display:block; font-size:11px; color:var(--ink-muted); margin-bottom:6px; }
+  .connect-field input{
+    width:100%; background:var(--panel2); border:1px solid var(--hairline); border-radius:8px;
+    padding:10px 12px; color:var(--white); font-size:13px;
+  }
+  .connect-field input:focus{ outline:none; border-color:var(--gold); }
+  .status-dot{ width:8px; height:8px; border-radius:50%; background:var(--ink-faint); display:inline-block; margin-right:6px; }
+  .status-dot.ok{ background:#3ecf6b; }
+  .status-dot.err{ background:var(--danger); }
+  .status-line{ font-size:12px; color:var(--ink-muted); margin-top:10px; }
+  .saving-overlay{
+    position:fixed; inset:0; background:rgba(10,10,10,.7); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:200; font-size:13px; color:var(--white);
+  }
+  .saving-overlay.show{ display:flex; }
+  .disabled{ opacity:.45; pointer-events:none; }
+</style>
+</head>
+<body class="view-admin">
+
+<div class="topbar">
+  <a class="brand" href="index.html">
+    <img class="brand-mark" src="logo.png" alt="Sash Afrique Ltd">
+  </a>
+  <div class="topbar-tag" id="connTag">Not connected</div>
+</div>
+
+<div class="admin-wrap">
+  <h1 class="panel-title">Graduation patterns</h1>
+  <p class="panel-sub">Add, edit, and remove patterns shown in the public gallery. Saved changes are committed directly to GitHub and go live immediately.</p>
+
+  <div class="connect-card" id="connectCard">
+    <p class="form-title">Connect to GitHub</p>
+    <div class="connect-row">
+      <div class="connect-field">
+        <label>Repo owner</label>
+        <input type="text" id="ghOwner" placeholder="e.g. naboat54">
+      </div>
+      <div class="connect-field">
+        <label>Repo name</label>
+        <input type="text" id="ghRepo" placeholder="e.g. sash-afrique-gallery">
+      </div>
+      <div class="connect-field">
+        <label>Branch</label>
+        <input type="text" id="ghBranch" value="main">
+      </div>
+    </div>
+    <div class="connect-row" style="margin-top:10px;">
+      <div class="connect-field">
+        <label>Personal access token (repo scope)</label>
+        <input type="password" id="ghToken" placeholder="ghp_...">
+      </div>
+      <button class="btn btn-gold" id="connectBtn" style="height:41px;">Connect</button>
+    </div>
+    <p class="status-line" id="connStatus"><span class="status-dot" id="connDot"></span>Not connected yet.</p>
+    <p class="note">Your token is only kept in this browser tab's memory — it's never saved to disk or committed anywhere. You'll need to re-enter it next time you open this page. Generate one at github.com → Settings → Developer settings → Personal access tokens (grant "repo" scope, or for fine-grained tokens, read/write access to Contents on this repo).</p>
+  </div>
+
+  <div id="mainPanel" class="disabled">
+    <div class="toolbar">
+      <button class="btn btn-gold" id="addBtn">+ Add pattern</button>
+      <button class="btn btn-ghost" id="refreshBtn">Refresh from GitHub</button>
+    </div>
+
+    <div class="list" id="list"></div>
+
+    <div class="form-card" id="formCard">
+      <p class="form-title" id="formTitle">Add pattern</p>
+      <div class="field">
+        <label>Pattern name</label>
+        <input type="text" id="fName" placeholder="e.g. Azumah Nelson">
+      </div>
+      <div class="field">
+        <label>Inspiration / story (1–2 sentences)</label>
+        <textarea id="fStory" rows="3" placeholder="Inspired by courage, resilience and victory, this pattern symbolizes..."></textarea>
+      </div>
+      <div class="field">
+        <label>Main image (uploads to the repo root)</label>
+        <div class="img-uploads" id="imgUploads"></div>
+        <p class="note">If left empty, a placeholder pattern artwork is shown automatically in the gallery.</p>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-gold" id="saveBtn">Save to GitHub</button>
+        <button class="btn btn-ghost" id="cancelBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="saving-overlay" id="savingOverlay">Saving to GitHub…</div>
+
+<script src="patterns.js"></script>
+<script>
+/* ============================================================
+   GitHub-backed admin panel.
+   Reads/writes patterns.json and pattern image files
+   directly via the GitHub Contents API — same approach as the
+   nanaboateng.com admin's blog publishing workflow.
+   ============================================================ */
+
+let gh = { owner:'', repo:'', branch:'main', token:'' };
+let PATTERNS = [];
+let patternsSha = null; // needed to update the file via the API
+let editingId = null;
+let draftImage = null; // {dataUrl, base64, ext} or null (unchanged) or 'REMOVE'
+
+const toast = document.getElementById('toast');
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+function setSaving(on){
+  document.getElementById('savingOverlay').classList.toggle('show', on);
+}
+
+const API = 'https://api.github.com';
+function ghHeaders(){
+  return {
+    'Authorization': 'token ' + gh.token,
+    'Accept': 'application/vnd.github+json'
+  };
+}
+
+async function ghGetFile(path){
+  const url = `${API}/repos/${gh.owner}/${gh.repo}/contents/${path}?ref=${encodeURIComponent(gh.branch)}`;
+  const res = await fetch(url, { headers: ghHeaders() });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error('GitHub read failed (' + res.status + ')');
+  return res.json();
+}
+
+async function ghPutFile(path, base64Content, message, sha){
+  const url = `${API}/repos/${gh.owner}/${gh.repo}/contents/${path}`;
+  const body = { message, content: base64Content, branch: gh.branch };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { ...ghHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok){
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.message || ('GitHub write failed (' + res.status + ')'));
+  }
+  return res.json();
+}
+
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+/* ---------- connect ---------- */
+document.getElementById('connectBtn').addEventListener('click', async () => {
+  gh.owner = document.getElementById('ghOwner').value.trim();
+  gh.repo = document.getElementById('ghRepo').value.trim();
+  gh.branch = document.getElementById('ghBranch').value.trim() || 'main';
+  gh.token = document.getElementById('ghToken').value.trim();
+
+  const dot = document.getElementById('connDot');
+  const status = document.getElementById('connStatus');
+  const tag = document.getElementById('connTag');
+
+  if (!gh.owner || !gh.repo || !gh.token){
+    dot.className = 'status-dot err';
+    status.innerHTML = '<span class="status-dot err"></span>Fill in owner, repo, and token.';
+    return;
+  }
+
+  status.innerHTML = '<span class="status-dot"></span>Connecting…';
+  try {
+    const file = await ghGetFile('patterns.json');
+    if (!file){
+      dot.className = 'status-dot err';
+      status.innerHTML = '<span class="status-dot err"></span>Connected, but patterns.json wasn\'t found in that repo/branch.';
+      return;
+    }
+    const decoded = decodeURIComponent(escape(atob(file.content.replace(/\n/g,''))));
+    const data = JSON.parse(decoded);
+    PATTERNS = data.patterns || [];
+    patternsSha = file.sha;
+
+    document.getElementById('connectCard').classList.add('connected');
+    document.getElementById('mainPanel').classList.remove('disabled');
+    tag.textContent = gh.owner + '/' + gh.repo + ' · connected';
+    status.innerHTML = '<span class="status-dot ok"></span>Connected — ' + PATTERNS.length + ' patterns loaded.';
+    renderList();
+  } catch (err){
+    status.innerHTML = '<span class="status-dot err"></span>' + err.message;
+  }
+});
+
+document.getElementById('refreshBtn').addEventListener('click', async () => {
+  try {
+    const file = await ghGetFile('patterns.json');
+    const decoded = decodeURIComponent(escape(atob(file.content.replace(/\n/g,''))));
+    const data = JSON.parse(decoded);
+    PATTERNS = data.patterns || [];
+    patternsSha = file.sha;
+    renderList();
+    showToast('Refreshed from GitHub');
+  } catch (err){
+    showToast('Could not refresh: ' + err.message);
+  }
+});
+
+/* ---------- list ---------- */
+const list = document.getElementById('list');
+function renderList(){
+  list.innerHTML = '';
+  if (!PATTERNS.length){
+    list.innerHTML = '<div class="empty">No patterns yet. Add your first one above.</div>';
+    return;
+  }
+  PATTERNS.forEach(p => {
+    const thumb = (p.images && p.images[0]) || placeholderThumb(p.name);
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `
+      <img class="row-thumb" src="${thumb}" alt="">
+      <div class="row-body">
+        <p class="row-name">${p.name}</p>
+        <p class="row-story">${p.story || 'No story yet'}</p>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-edit="${p.id}" aria-label="Edit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+        </button>
+        <button class="icon-btn danger" data-delete="${p.id}" aria-label="Delete">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path></svg>
+        </button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+/* ---------- form ---------- */
+const formCard = document.getElementById('formCard');
+const formTitle = document.getElementById('formTitle');
+const fName = document.getElementById('fName');
+const fStory = document.getElementById('fStory');
+const imgUploads = document.getElementById('imgUploads');
+
+document.getElementById('addBtn').addEventListener('click', () => openForm(null));
+document.getElementById('cancelBtn').addEventListener('click', closeForm);
+
+function openForm(pattern){
+  editingId = pattern ? pattern.id : null;
+  formTitle.textContent = pattern ? 'Edit pattern' : 'Add pattern';
+  fName.value = pattern ? pattern.name : '';
+  fStory.value = pattern ? (pattern.story || '') : '';
+  draftImage = null;
+  renderImgUploads(pattern);
+  formCard.classList.add('open');
+  formCard.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function closeForm(){
+  formCard.classList.remove('open');
+  editingId = null;
+}
+
+function renderImgUploads(pattern){
+  imgUploads.innerHTML = '';
+  const slot = document.createElement('div');
+  slot.className = 'img-slot';
+  slot.style.gridColumn = 'span 1';
+  const existing = pattern && pattern.images && pattern.images[0];
+  if (draftImage && draftImage !== 'REMOVE'){
+    slot.innerHTML = `<img src="${draftImage.dataUrl}" alt=""><button class="remove" data-remove="1">×</button>`;
+  } else if (existing && draftImage !== 'REMOVE'){
+    slot.innerHTML = `<img src="${existing}" alt=""><button class="remove" data-remove="1">×</button>`;
+  } else {
+    slot.textContent = 'Main image';
+  }
+  slot.addEventListener('click', (e) => {
+    if (e.target.closest('.remove')){
+      draftImage = 'REMOVE';
+      renderImgUploads(pattern);
+      return;
+    }
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = () => {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result;
+        const base64 = dataUrl.split(',')[1];
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        draftImage = { dataUrl, base64, ext };
+        renderImgUploads(pattern);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  });
+  imgUploads.appendChild(slot);
+}
+
+/* ---------- save (writes to GitHub) ---------- */
+document.getElementById('saveBtn').addEventListener('click', async () => {
+  const name = fName.value.trim();
+  if (!name){ showToast('Pattern name is required'); return; }
+
+  setSaving(true);
+  try {
+    let id, existingPattern;
+    if (editingId){
+      id = editingId;
+      existingPattern = PATTERNS.find(p => p.id === id);
+    } else {
+      id = slugify(name);
+      let suffix = 1; const baseId = id;
+      while (PATTERNS.some(p => p.id === id)){ id = baseId + '-' + (++suffix); }
+    }
+
+    let images = existingPattern ? (existingPattern.images || []) : [];
+
+    if (draftImage === 'REMOVE'){
+      images = [];
+    } else if (draftImage){
+      const path = `${id}.${draftImage.ext}`;
+      const existingFile = await ghGetFile(path).catch(()=>null);
+      await ghPutFile(path, draftImage.base64, `Add/update image for ${name}`, existingFile ? existingFile.sha : null);
+      images = [path];
+    }
+
+    const record = { id, name, story: fStory.value.trim(), images };
+    if (editingId){
+      const idx = PATTERNS.findIndex(p => p.id === id);
+      PATTERNS[idx] = record;
+    } else {
+      PATTERNS.push(record);
+    }
+
+    const newContent = utf8ToBase64(JSON.stringify({ category: 'Graduations', patterns: PATTERNS }, null, 2));
+    const commitMsg = editingId ? `Update pattern: ${name}` : `Add pattern: ${name}`;
+    const result = await ghPutFile('patterns.json', newContent, commitMsg, patternsSha);
+    patternsSha = result.content.sha;
+
+    renderList();
+    closeForm();
+    showToast('Saved to GitHub — live shortly');
+  } catch (err){
+    showToast('Save failed: ' + err.message);
+  } finally {
+    setSaving(false);
+  }
+});
+
+/* ---------- delete ---------- */
+list.addEventListener('click', async (e) => {
+  const editId = e.target.closest('[data-edit]');
+  const delId = e.target.closest('[data-delete]');
+  if (editId){
+    openForm(PATTERNS.find(p => p.id === editId.dataset.edit));
+  }
+  if (delId){
+    if (!confirm('Remove this pattern from the gallery? This commits the change to GitHub immediately.')) return;
+    setSaving(true);
+    try {
+      PATTERNS = PATTERNS.filter(p => p.id !== delId.dataset.delete);
+      const newContent = utf8ToBase64(JSON.stringify({ category: 'Graduations', patterns: PATTERNS }, null, 2));
+      const result = await ghPutFile('patterns.json', newContent, 'Remove pattern', patternsSha);
+      patternsSha = result.content.sha;
+      renderList();
+      showToast('Removed and saved to GitHub');
+    } catch (err){
+      showToast('Delete failed: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+});
+</script>
+</body>
+</html>

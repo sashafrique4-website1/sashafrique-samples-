@@ -1,0 +1,349 @@
+{
+  "category": "Graduations",
+  "patterns": [
+    {
+      "id": "chinua-achebe",
+      "name": "Chinua Achebe",
+      "story": "Named for the father of African literature, this pattern speaks to the power of finding your own voice and telling your story on your own terms.",
+      "images": [
+        "chinua-achebe.jpg"
+      ]
+    },
+    {
+      "id": "haile-selassie",
+      "name": "Haile Selassie",
+      "story": "A pattern woven in honour of dignity and unshaken leadership, for the graduate who carries themselves with quiet, deliberate authority.",
+      "images": [
+        "haile-selassie.jpg"
+      ]
+    },
+    {
+      "id": "kofi-annan",
+      "name": "Kofi Annan",
+      "story": "Inspired by diplomacy, calm strength, and global impact — for the achiever whose influence reaches far beyond where they started.",
+      "images": [
+        "kofi-annan.jpg"
+      ]
+    },
+    {
+      "id": "kwame-nkrumah",
+      "name": "Kwame Nkrumah",
+      "story": "A tribute to vision and independence of thought, this pattern marks the graduate ready to build something the world hasn't seen yet.",
+      "images": [
+        "kwame-nkrumah.jpg"
+      ]
+    },
+    {
+      "id": "malcolm-x",
+      "name": "Malcolm X",
+      "story": "Bold, direct, unapologetic — this pattern is for the graduate whose convictions were forged through struggle and sharpened by truth.",
+      "images": [
+        "malcolm-x.jpg"
+      ]
+    },
+    {
+      "id": "nelson-mandela",
+      "name": "Nelson Mandela",
+      "story": "Woven for patience, forgiveness, and the long walk to purpose, this pattern honours every graduate who stayed the course.",
+      "images": [
+        "nelson-mandela.jpg"
+      ]
+    },
+    {
+      "id": "patrice-lumumba",
+      "name": "Patrice Lumumba",
+      "story": "A pattern of conviction — for the graduate who stands firmly for what they believe in, whatever the cost.",
+      "images": [
+        "patrice-lumumba.jpg"
+      ]
+    },
+    {
+      "id": "thabo-mbeki",
+      "name": "Thabo Mbeki",
+      "story": "Reflective and statesman-like, this pattern celebrates thoughtful leadership and the discipline behind lasting achievement.",
+      "images": [
+        "thabo-mbeki.jpg"
+      ]
+    },
+    {
+      "id": "thomas-sankara",
+      "name": "Thomas Sankara",
+      "story": "The Thomas Sankara pattern symbolizes courage, self-reliance, and African pride.",
+      "images": [
+        "thomas-sankara.jpg"
+      ]
+    },
+    {
+      "id": "yaa-asantewaa",
+      "name": "Yaa Asantewaa",
+      "story": "Fierce and regal, this pattern is woven for the graduate who leads from the front and defends what matters most.",
+      "images": [
+        "yaa-asantewaa.jpg"
+      ]
+    },
+    {
+      "id": "ellen-johnson-sirleaf",
+      "name": "Ellen Johnson Sirleaf",
+      "story": "A pattern of firsts and quiet resolve, honouring the graduate who breaks ground for everyone coming behind them.",
+      "images": [
+        "ellen-johnson-sirleaf.jpg"
+      ]
+    },
+    {
+      "id": "tetteh-quarshie",
+      "name": "Tetteh Quarshie",
+      "story": "Rooted in enterprise and legacy-building, this pattern celebrates the graduate planting seeds for generations ahead.",
+      "images": [
+        "tetteh-quarshie.jpg"
+      ]
+    },
+    {
+      "id": "jomo-kenyatta",
+      "name": "Jomo Kenyatta",
+      "story": "A founder's pattern — steady, deliberate, and built for the graduate laying the first stones of something lasting.",
+      "images": [
+        "jomo-kenyatta.jpg"
+      ]
+    },
+    {
+      "id": "julius-nyerere",
+      "name": "Julius Nyerere",
+      "story": "Woven for the teacher in every achiever, this pattern honours wisdom shared freely and purpose held closely.",
+      "images": [
+        "julius-nyerere.jpg"
+      ]
+    },
+    {
+      "id": "robert-mugabe",
+      "name": "Robert Mugabe",
+      "story": "A pattern of tenacity, marking the graduate whose resolve outlasted every obstacle placed in their way.",
+      "images": [
+        "robert-mugabe.jpg"
+      ]
+    },
+    {
+      "id": "strive-masiyiwa",
+      "name": "Strive Masiyiwa",
+      "story": "Bold entrepreneurship woven into cloth — for the graduate who sees opportunity where others see risk.",
+      "images": [
+        "strive-masiyiwa.jpg"
+      ]
+    },
+    {
+      "id": "wole-soyinka",
+      "name": "Wole Soyinka",
+      "story": "A pattern for the storytellers and truth-tellers, honouring sharp minds and the courage to speak clearly.",
+      "images": [
+        "wole-soyinka.jpg"
+      ]
+    },
+    {
+      "id": "premium-thomas-sankara",
+      "name": "Premium Thomas Sankara",
+      "story": "The premium edition of the Thomas Sankara pattern, woven with a finer hand for graduates who want every detail of courage and self-reliance rendered in full.",
+      "images": [
+        "premium-thomas-sankara.jpg"
+      ]
+    },
+    {
+      "id": "premium-kofi-annan",
+      "name": "Premium Kofi Annan",
+      "story": "A premium weave of the Kofi Annan pattern, refined for the graduate whose calm influence deserves the finest cloth.",
+      "images": [
+        "premium-kofi-annan.jpg"
+      ]
+    },
+    {
+      "id": "premium-malcolm-x",
+      "name": "Premium Malcolm X",
+      "story": "The premium Malcolm X weave, for the graduate whose convictions call for nothing less than the finest craftsmanship.",
+      "images": []
+    },
+    {
+      "id": "premium-yaa-asantewaa",
+      "name": "Premium Yaa Asantewaa",
+      "story": "A premium rendering of the Yaa Asantewaa pattern, woven with extra care for the graduate who leads boldly.",
+      "images": []
+    },
+    {
+      "id": "premium-patrice-lumumba",
+      "name": "Premium Patrice Lumumba",
+      "story": "The premium edition of the Patrice Lumumba pattern, for the graduate whose conviction deserves an equally uncompromising weave.",
+      "images": [
+        "premium-patrice-lumumba.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-1",
+      "name": "Premium Kente",
+      "story": "A premium house kente colorway, densely woven for the graduate who wants a richer, more textured finish.",
+      "images": [
+        "premium-kente-1.jpg"
+      ]
+    },
+    {
+      "id": "azumah-nelson",
+      "name": "Azumah Nelson",
+      "story": "Inspired by courage, resilience and victory, this pattern symbolizes the determination required to achieve greatness.",
+      "images": [
+        "azumah-nelson.jpg"
+      ]
+    },
+    {
+      "id": "queen-nzinga",
+      "name": "Queen Nzinga",
+      "story": "Regal and unbending, this pattern honours the graduate who negotiates, strategizes, and refuses to be underestimated.",
+      "images": [
+        "queen-nzinga.jpg"
+      ]
+    },
+    {
+      "id": "marcus-garvey",
+      "name": "Marcus Garvey",
+      "story": "A pattern of pride and pan-African vision, for the graduate who carries their heritage as a source of strength.",
+      "images": [
+        "marcus-garvey.jpg"
+      ]
+    },
+    {
+      "id": "paul-biya",
+      "name": "Paul Biya",
+      "story": "Woven for endurance and steadiness, this pattern marks the graduate who plays the long game with quiet confidence.",
+      "images": []
+    },
+    {
+      "id": "ephraim-amu",
+      "name": "Ephraim Amu",
+      "story": "A composer's pattern — rhythmic and intentional, celebrating the graduate whose discipline turned practice into artistry.",
+      "images": [
+        "ephraim-amu.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-sene",
+      "name": "Premium Kente Sene",
+      "story": "A premium kente colorway carrying Senegal's palette, for the graduate celebrating cross-border African pride.",
+      "images": [
+        "premium-kente-sene.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-nig",
+      "name": "Premium Kente Nig",
+      "story": "A premium kente colorway carrying Nigeria's palette, for the graduate celebrating cross-border African pride.",
+      "images": [
+        "premium-kente-nig.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-2",
+      "name": "Premium Kente",
+      "story": "A second premium house colorway, woven with its own distinct palette and finish.",
+      "images": []
+    },
+    {
+      "id": "premium-kente-uga",
+      "name": "Premium Kente Uga",
+      "story": "A premium kente colorway carrying Uganda's palette, for the graduate celebrating cross-border African pride.",
+      "images": []
+    },
+    {
+      "id": "premium-kente-baw",
+      "name": "Premium Kente BAW",
+      "story": "A premium kente colorway with its own distinct palette, woven for the graduate who wants something singular.",
+      "images": []
+    },
+    {
+      "id": "philip-gbeho",
+      "name": "Philip Gbeho",
+      "story": "A pattern of national pride, for the graduate whose achievement becomes part of a larger, shared story.",
+      "images": []
+    },
+    {
+      "id": "premium-kente-rwe",
+      "name": "Premium Kente RWE",
+      "story": "A premium kente colorway carrying Rwanda's palette, for the graduate celebrating cross-border African pride.",
+      "images": []
+    },
+    {
+      "id": "paul-tomba",
+      "name": "Paul Tomba",
+      "story": "Woven for grounded ambition, this pattern honours steady, unglamorous work that adds up to something great.",
+      "images": []
+    },
+    {
+      "id": "theodosia-salome-okoh",
+      "name": "Theodosia Salome Okoh",
+      "story": "A pattern of quiet design and lasting symbolism, for the graduate whose contribution outlives the moment.",
+      "images": [
+        "theodosia-salome-okoh.jpg"
+      ]
+    },
+    {
+      "id": "icag",
+      "name": "ICAG",
+      "story": "A pattern of professional distinction, marking the discipline and standards behind every chartered achievement.",
+      "images": [
+        "icag.jpg"
+      ]
+    },
+    {
+      "id": "citg",
+      "name": "CITG",
+      "story": "Precision and structure woven into cloth, for the graduate whose achievement is built on rigour and craft.",
+      "images": [
+        "citg.jpg"
+      ]
+    },
+    {
+      "id": "unimac-kente",
+      "name": "Unimac Kente",
+      "story": "A pattern of institutional pride, celebrating the community that shaped this achievement.",
+      "images": []
+    },
+    {
+      "id": "uew-approved",
+      "name": "UEW Approved",
+      "story": "Crafted to institutional standard, this pattern honours the graduate who met every mark set before them.",
+      "images": []
+    },
+    {
+      "id": "opoku-ware",
+      "name": "Opoku Ware",
+      "story": "Woven for expansion and ambition, this pattern celebrates the graduate building on strong foundations.",
+      "images": []
+    },
+    {
+      "id": "ash-and-black",
+      "name": "Ash and Black",
+      "story": "A study in restraint — ash grey and black woven in fine lines, for the graduate whose achievement speaks quietly and clearly.",
+      "images": [
+        "ash-and-black.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-emerald",
+      "name": "Premium Kente Emerald",
+      "story": "A premium colorway in emerald and cream, for the graduate drawn to a cooler, more understated palette.",
+      "images": [
+        "premium-kente-emerald.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-sapphire",
+      "name": "Premium Kente Sapphire",
+      "story": "A premium colorway in sapphire blue, white, and black, for the graduate who wants something crisp and modern.",
+      "images": [
+        "premium-kente-sapphire.jpg"
+      ]
+    },
+    {
+      "id": "premium-kente-rubygold",
+      "name": "Premium Kente Ruby Gold",
+      "story": "A premium colorway in deep red, gold, and navy, for the graduate who wants richness with a regal edge.",
+      "images": [
+        "premium-kente-rubygold.jpg"
+      ]
+    }
+  ]
+}
