@@ -33,10 +33,59 @@
   }
   .saving-overlay.show{ display:flex; }
   .disabled{ opacity:.45; pointer-events:none; }
+
+  /* Password gate */
+  .login-gate{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .login-card{
+    width:100%; max-width:340px; background:var(--panel); border:1px solid var(--hairline);
+    border-radius:var(--radius); padding:26px 22px; text-align:center;
+  }
+  .login-card .brand-mark{ height:34px; margin-bottom:16px; }
+  .login-card h2{ font-family:var(--serif); font-size:19px; margin:0 0 6px; }
+  .login-card p{ font-size:12.5px; color:var(--ink-muted); margin:0 0 18px; }
+  .login-card input{
+    width:100%; background:var(--panel2); border:1px solid var(--hairline); border-radius:8px;
+    padding:12px 14px; color:var(--white); font-size:14px; margin-bottom:12px; text-align:center;
+  }
+  .login-card input:focus{ outline:none; border-color:var(--gold); }
+  .login-card .btn{ width:100%; justify-content:center; }
+  .login-error{ font-size:12px; color:var(--danger); margin-top:10px; min-height:16px; }
+
+  /* Achiever photo uploads in the admin form */
+  .achiever-uploads{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+  .achiever-slot{
+    position:relative; aspect-ratio:1/1; border-radius:8px; overflow:hidden;
+    background:var(--panel2); border:1px solid var(--hairline);
+  }
+  .achiever-slot img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .achiever-slot .remove{
+    position:absolute; top:4px; right:4px; width:20px; height:20px; border-radius:50%;
+    background:rgba(0,0,0,.7); color:#fff; border:none; font-size:12px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .achiever-add{
+    aspect-ratio:1/1; border-radius:8px; border:1px dashed var(--hairline);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color:var(--ink-faint); font-size:24px; background:var(--panel2);
+  }
 </style>
 </head>
 <body class="view-admin">
 
+<div class="login-gate" id="loginGate">
+  <div class="login-card">
+    <img class="brand-mark" src="logo.png" alt="Sash Afrique Ltd">
+    <h2>Admin access</h2>
+    <p>This area is restricted to Sash Afrique staff.</p>
+    <input type="password" id="gatePassword" placeholder="Password" autocomplete="off">
+    <button class="btn btn-gold" id="gateSubmit">Enter</button>
+    <p class="login-error" id="gateError"></p>
+  </div>
+</div>
+
+<div id="adminApp" style="display:none;">
 <div class="topbar">
   <a class="brand" href="index.html">
     <img class="brand-mark" src="logo.png" alt="Sash Afrique Ltd">
@@ -94,9 +143,14 @@
         <textarea id="fStory" rows="3" placeholder="Inspired by courage, resilience and victory, this pattern symbolizes..."></textarea>
       </div>
       <div class="field">
-        <label>Main image (uploads to the repo root)</label>
+        <label>Main pattern photo (uploads to the repo root)</label>
         <div class="img-uploads" id="imgUploads"></div>
         <p class="note">If left empty, a placeholder pattern artwork is shown automatically in the gallery.</p>
+      </div>
+      <div class="field">
+        <label>Photos of achievers styled in this pattern</label>
+        <div class="achiever-uploads" id="achieverUploads"></div>
+        <p class="note">These show in a "Styled by our achievers" gallery on the pattern page. Add as many as you like.</p>
       </div>
       <div class="form-actions">
         <button class="btn btn-gold" id="saveBtn">Save to GitHub</button>
@@ -104,6 +158,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -123,6 +178,35 @@ let PATTERNS = [];
 let patternsSha = null; // needed to update the file via the API
 let editingId = null;
 let draftImage = null; // {dataUrl, base64, ext} or null (unchanged) or 'REMOVE'
+let draftAchievers = []; // [{type:'existing', path}] or [{type:'new', dataUrl, base64, ext}]
+
+/* ---------- password gate ----------
+   Simple client-side gate to keep casual visitors out of the admin UI.
+   Not a substitute for real auth — the actual security boundary is the
+   GitHub token below, which only staff have. This just keeps the form
+   from being wide open to anyone who finds the link.
+   Default password: sashafrique2026 — change the hash below to change it
+   (see README for how to generate a new one). */
+const GATE_HASH = '6935f6d6510f8c6dc98f20f619ba29360fdc9132958a7f4617cd8a564175e55e'; // sha256("sashafrique2026") — change this to change the password, see README
+async function sha256Hex(text){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+async function checkGatePassword(){
+  const val = document.getElementById('gatePassword').value;
+  const hash = await sha256Hex(val);
+  const errEl = document.getElementById('gateError');
+  if (hash === GATE_HASH){
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+  } else {
+    errEl.textContent = 'Incorrect password.';
+  }
+}
+document.getElementById('gateSubmit').addEventListener('click', checkGatePassword);
+document.getElementById('gatePassword').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkGatePassword();
+});
 
 const toast = document.getElementById('toast');
 function showToast(msg){
@@ -271,7 +355,9 @@ function openForm(pattern){
   fName.value = pattern ? pattern.name : '';
   fStory.value = pattern ? (pattern.story || '') : '';
   draftImage = null;
+  draftAchievers = (pattern && pattern.achievers) ? pattern.achievers.map(path => ({type:'existing', path})) : [];
   renderImgUploads(pattern);
+  renderAchieverUploads();
   formCard.classList.add('open');
   formCard.scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -279,6 +365,49 @@ function closeForm(){
   formCard.classList.remove('open');
   editingId = null;
 }
+
+const achieverUploads = document.getElementById('achieverUploads');
+function renderAchieverUploads(){
+  achieverUploads.innerHTML = '';
+  draftAchievers.forEach((item, i) => {
+    const src = item.type === 'existing' ? item.path : item.dataUrl;
+    const slot = document.createElement('div');
+    slot.className = 'achiever-slot';
+    slot.innerHTML = `<img src="${src}" alt=""><button class="remove" data-remove-achiever="${i}">×</button>`;
+    achieverUploads.appendChild(slot);
+  });
+  const addTile = document.createElement('div');
+  addTile.className = 'achiever-add';
+  addTile.textContent = '+';
+  addTile.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    input.onchange = () => {
+      Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = reader.result;
+          const base64 = dataUrl.split(',')[1];
+          const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+          draftAchievers.push({ type:'new', dataUrl, base64, ext });
+          renderAchieverUploads();
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+    input.click();
+  });
+  achieverUploads.appendChild(addTile);
+}
+achieverUploads.addEventListener('click', (e) => {
+  const removeBtn = e.target.closest('[data-remove-achiever]');
+  if (!removeBtn) return;
+  const idx = Number(removeBtn.dataset.removeAchiever);
+  draftAchievers.splice(idx, 1);
+  renderAchieverUploads();
+});
 
 function renderImgUploads(pattern){
   imgUploads.innerHTML = '';
@@ -348,7 +477,20 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
       images = [path];
     }
 
-    const record = { id, name, story: fStory.value.trim(), images };
+    // Upload any new achiever photos; keep existing ones as-is.
+    const achievers = [];
+    for (let i = 0; i < draftAchievers.length; i++){
+      const item = draftAchievers[i];
+      if (item.type === 'existing'){
+        achievers.push(item.path);
+      } else {
+        const path = `achievers/${id}-${Date.now()}-${i}.${item.ext}`;
+        await ghPutFile(path, item.base64, `Add achiever photo for ${name}`, null);
+        achievers.push(path);
+      }
+    }
+
+    const record = { id, name, story: fStory.value.trim(), images, achievers };
     if (editingId){
       const idx = PATTERNS.findIndex(p => p.id === id);
       PATTERNS[idx] = record;
