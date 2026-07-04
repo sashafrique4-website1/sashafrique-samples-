@@ -44,7 +44,12 @@
       "images": [
         "kwame-nkrumah.jpg"
       ],
-      "achievers": []
+      "achievers": [
+        "achievers/kwame-nkrumah-1783167358775-0.jpeg",
+        "achievers/kwame-nkrumah-1783167361347-1.jpeg",
+        "achievers/kwame-nkrumah-1783167363404-2.jpeg",
+        "achievers/kwame-nkrumah-1783167366522-3.jpeg"
+      ]
     },
     {
       "id": "malcolm-x",
