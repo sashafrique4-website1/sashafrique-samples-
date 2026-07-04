@@ -159,7 +159,11 @@
       "images": [
         "robert-mugabe.jpg"
       ],
-      "achievers": []
+      "achievers": [
+        "achievers/robert-mugabe-1783175550926-0.jpeg",
+        "achievers/robert-mugabe-1783175554276-1.jpeg",
+        "achievers/robert-mugabe-1783175559765-2.jpeg"
+      ]
     },
     {
       "id": "strive-masiyiwa",
