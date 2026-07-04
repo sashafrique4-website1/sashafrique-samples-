@@ -112,9 +112,9 @@
     background:rgba(10,10,10,.92); backdrop-filter:blur(10px); border-top:1px solid var(--hairline);
   }
   .btn-cta{
-    flex:1; text-align:center; padding:14px 16px; border-radius:999px; font-size:14px; font-weight:600;
-    text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;
-    transition:transform .15s ease;
+    flex:1; text-align:center; padding:13px 10px; border-radius:999px; font-size:13px; font-weight:600;
+    text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px;
+    transition:transform .15s ease; line-height:1.25;
   }
   .btn-cta:active{ transform:scale(.97); }
   .btn-cta.gold{ background:var(--gold); color:#0a0a0a; }
