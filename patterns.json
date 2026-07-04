@@ -98,7 +98,11 @@
       "images": [
         "thomas-sankara.jpg"
       ],
-      "achievers": []
+      "achievers": [
+        "achievers/thomas-sankara-1783174861425-0.jpeg",
+        "achievers/thomas-sankara-1783174864743-1.png",
+        "achievers/thomas-sankara-1783174867497-2.jpeg"
+      ]
     },
     {
       "id": "yaa-asantewaa",
