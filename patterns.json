@@ -247,6 +247,19 @@
       "id": "strive-masiyiwa",
       "name": "Strive Masiyiwa",
       "story": "Bold entrepreneurship woven into cloth — for the graduate who sees opportunity where others see risk.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "strive-masiyiwa.jpg"
       ],
