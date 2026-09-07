@@ -31,6 +31,19 @@
       "id": "haile-selassie",
       "name": "Haile Selassie",
       "story": "A pattern woven in honour of dignity and unshaken leadership, for the graduate who carries themselves with quiet, deliberate authority.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "haile-selassie.jpg"
       ],
