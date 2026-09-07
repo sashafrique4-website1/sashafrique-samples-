@@ -353,6 +353,14 @@
       "id": "premium-kente-baw",
       "name": "Premium Kente BAW",
       "story": "A premium kente colorway with its own distinct palette, woven for the graduate who wants something singular.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [],
       "achievers": []
     },
