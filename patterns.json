@@ -5,6 +5,19 @@
       "id": "chinua-achebe",
       "name": "Chinua Achebe",
       "story": "Named for the father of African literature, this pattern speaks to the power of finding your own voice and telling your story on your own terms.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "chinua-achebe.jpg"
       ],
