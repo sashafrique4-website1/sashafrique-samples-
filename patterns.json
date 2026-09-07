@@ -873,7 +873,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "opoku-ware.png"
+      ],
       "achievers": []
     },
     {
