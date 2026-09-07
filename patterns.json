@@ -339,6 +339,14 @@
       "id": "premium-kente-2",
       "name": "Premium Kente",
       "story": "A second premium house colorway, woven with its own distinct palette and finish.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [],
       "achievers": []
     },
