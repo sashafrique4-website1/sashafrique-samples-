@@ -438,6 +438,14 @@
       "id": "premium-kente-emerald",
       "name": "Premium Kente Emerald",
       "story": "A premium colorway in emerald and cream, for the graduate drawn to a cooler, more understated palette.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-emerald.jpg"
       ],
