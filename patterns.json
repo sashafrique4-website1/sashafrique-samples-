@@ -374,6 +374,19 @@
       "id": "paul-tomba",
       "name": "Paul Tomba",
       "story": "Woven for grounded ambition, this pattern honours steady, unglamorous work that adds up to something great.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [],
       "achievers": []
     },
