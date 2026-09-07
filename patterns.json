@@ -829,7 +829,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "unimac-kente.jpg"
+      ],
       "achievers": []
     },
     {
