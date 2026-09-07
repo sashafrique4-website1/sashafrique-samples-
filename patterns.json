@@ -253,6 +253,14 @@
       "id": "premium-yaa-asantewaa",
       "name": "Premium Yaa Asantewaa",
       "story": "A premium rendering of the Yaa Asantewaa pattern, woven with extra care for the graduate who leads boldly.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [],
       "achievers": []
     },
