@@ -452,7 +452,9 @@
           "price": 220
         }
       ],
-      "images": [],
+      "images": [
+        "premium-malcolm-x.jpg"
+      ],
       "achievers": []
     },
     {
