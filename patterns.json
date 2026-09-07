@@ -55,6 +55,19 @@
       "id": "kofi-annan",
       "name": "Kofi Annan",
       "story": "Inspired by diplomacy, calm strength, and global impact — for the achiever whose influence reaches far beyond where they started.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "kofi-annan.jpg"
       ],
