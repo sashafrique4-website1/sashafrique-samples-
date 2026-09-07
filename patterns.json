@@ -186,6 +186,19 @@
       "id": "yaa-asantewaa",
       "name": "Yaa Asantewaa",
       "story": "Fierce and regal, this pattern is woven for the graduate who leads from the front and defends what matters most.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "yaa-asantewaa.jpg"
       ],
