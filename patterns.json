@@ -173,6 +173,19 @@
       "id": "thomas-sankara",
       "name": "Thomas Sankara",
       "story": "The Thomas Sankara pattern symbolizes courage, self-reliance, and African pride.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "thomas-sankara.jpg"
       ],
