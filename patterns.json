@@ -429,6 +429,19 @@
       "id": "ash-and-black",
       "name": "Ash and Black",
       "story": "A study in restraint — ash grey and black woven in fine lines, for the graduate whose achievement speaks quietly and clearly.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "ash-and-black.jpg"
       ],
