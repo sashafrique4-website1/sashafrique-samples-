@@ -164,6 +164,19 @@
       "id": "thabo-mbeki",
       "name": "Thabo Mbeki",
       "story": "Reflective and statesman-like, this pattern celebrates thoughtful leadership and the discipline behind lasting achievement.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "thabo-mbeki.jpg"
       ],
