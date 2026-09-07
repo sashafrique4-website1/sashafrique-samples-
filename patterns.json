@@ -278,6 +278,19 @@
       "id": "azumah-nelson",
       "name": "Azumah Nelson",
       "story": "Inspired by courage, resilience and victory, this pattern symbolizes the determination required to achieve greatness.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "azumah-nelson.jpg"
       ],
