@@ -853,7 +853,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "uew-approved.jpeg"
+      ],
       "achievers": []
     },
     {
