@@ -330,6 +330,14 @@
       "id": "premium-kente-nig",
       "name": "Premium Kente Nig",
       "story": "A premium kente colorway carrying Nigeria's palette, for the graduate celebrating cross-border African pride.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-nig.jpg"
       ],
