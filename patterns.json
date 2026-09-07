@@ -456,6 +456,14 @@
       "id": "premium-kente-rubygold",
       "name": "Premium Kente Ruby Gold",
       "story": "A premium colorway in deep red, gold, and navy, for the graduate who wants richness with a regal edge.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-rubygold.jpg"
       ],
