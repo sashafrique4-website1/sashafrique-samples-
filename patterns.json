@@ -745,7 +745,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "paul-tomba.jpeg"
+      ],
       "achievers": []
     },
     {
