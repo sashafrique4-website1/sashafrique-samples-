@@ -28,6 +28,22 @@
 
 <main class="gallery" id="gallery"></main>
 
+<div class="price-modal-overlay" id="priceModalOverlay">
+  <div class="price-modal">
+    <div class="price-modal-head">
+      <div>
+        <p class="price-modal-name" id="priceModalName"></p>
+        <p class="price-modal-tier" id="priceModalTier"></p>
+      </div>
+      <button class="price-modal-close" id="priceModalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="price-option-list" id="priceModalList"></div>
+    <a class="price-modal-link" id="priceModalLink" href="#">See full pattern &rarr;</a>
+  </div>
+</div>
+
 <div class="admin-entry"><a href="admin.html">Admin</a></div>
 <footer class="site-footer">
   <p>SASH <span class="gold">AFRIQUE</span> &middot; Handcrafted in Ghana &middot; © 2026</p>
@@ -54,16 +70,50 @@
     card.className = 'card';
     card.href = 'pattern.html?id=' + encodeURIComponent(p.id);
     card.style.animationDelay = (Math.min(idx,10) * 0.04) + 's';
+    const lowest = (p.priceOptions && p.priceOptions.length) ? Math.min(...p.priceOptions.map(o => o.price)) : null;
     card.innerHTML = `
       <div class="card-frame">
         <img src="${imgs[0]}" alt="${p.name} kente pattern" loading="lazy" draggable="false">
         <div class="watermark"></div>
         <div class="watermark-text">SASH AFRIQUE · SASH AFRIQUE</div>
+        ${lowest != null ? `<button type="button" class="price-badge" data-price-id="${p.id}">From ₵${lowest}</button>` : ''}
       </div>
       <div class="card-name">${p.name}</div>
     `;
     gallery.appendChild(card);
   });
+
+  /* ---------- price modal ---------- */
+  const overlay = document.getElementById('priceModalOverlay');
+  const modalName = document.getElementById('priceModalName');
+  const modalTier = document.getElementById('priceModalTier');
+  const modalList = document.getElementById('priceModalList');
+  const modalLink = document.getElementById('priceModalLink');
+  const TIER_LABELS = { standard:'Standard', special:'Special', premium:'Premium' };
+
+  gallery.addEventListener('click', (e) => {
+    const badge = e.target.closest('.price-badge');
+    if (!badge) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const pattern = PATTERNS.find(p => p.id === badge.dataset.priceId);
+    if (!pattern) return;
+    modalName.textContent = pattern.name;
+    modalTier.textContent = TIER_LABELS[pattern.tier] || '';
+    modalList.innerHTML = (pattern.priceOptions || []).map(o => `
+      <div class="price-option-row">
+        <div class="price-option-info">
+          <div class="method">${o.method}</div>
+          <div class="package">${o.package}</div>
+        </div>
+        <div class="price-option-amount">₵${o.price}</div>
+      </div>
+    `).join('');
+    modalLink.href = 'pattern.html?id=' + encodeURIComponent(pattern.id);
+    overlay.classList.add('open');
+  });
+  document.getElementById('priceModalClose').addEventListener('click', () => overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
 })();
 
 document.addEventListener('contextmenu', e => e.preventDefault());

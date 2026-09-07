@@ -33,6 +33,10 @@
   }
   .saving-overlay.show{ display:flex; }
   .disabled{ opacity:.45; pointer-events:none; }
+  .remember-row{ display:flex; align-items:center; gap:7px; margin-top:12px; }
+  .remember-row input{ width:15px; height:15px; accent-color:var(--gold); }
+  .remember-row label{ font-size:12px; color:var(--ink-muted); }
+  .forget-link{ font-size:11.5px; color:var(--ink-faint); text-decoration:underline; cursor:pointer; background:none; border:none; padding:0; margin-left:auto; }
 
   /* Password gate */
   .login-gate{
@@ -120,8 +124,13 @@
       </div>
       <button class="btn btn-gold" id="connectBtn" style="height:41px;">Connect</button>
     </div>
+    <div class="remember-row">
+      <input type="checkbox" id="rememberDevice">
+      <label for="rememberDevice">Remember these details on this device</label>
+      <button class="forget-link" id="forgetBtn" style="display:none;">Forget saved token</button>
+    </div>
     <p class="status-line" id="connStatus"><span class="status-dot" id="connDot"></span>Not connected yet.</p>
-    <p class="note">Your token is only kept in this browser tab's memory — it's never saved to disk or committed anywhere. You'll need to re-enter it next time you open this page. Generate one at github.com → Settings → Developer settings → Personal access tokens (grant "repo" scope, or for fine-grained tokens, read/write access to Contents on this repo).</p>
+    <p class="note">If you check "Remember," your token is saved in this browser's local storage on this device only — never committed, never visible in the page source. Only do this on a device you trust (not a shared or public computer). Generate a token at github.com → Settings → Developer settings → Personal access tokens (grant "repo" scope, or for fine-grained tokens, read/write access to Contents on this repo).</p>
   </div>
 
   <div id="mainPanel" class="disabled">
@@ -141,6 +150,24 @@
       <div class="field">
         <label>Inspiration / story (1–2 sentences)</label>
         <textarea id="fStory" rows="3" placeholder="Inspired by courage, resilience and victory, this pattern symbolizes..."></textarea>
+      </div>
+      <div class="field">
+        <label>Tier</label>
+        <div class="tier-select" id="tierSelect">
+          <button type="button" class="tier-btn" data-tier="standard">Standard</button>
+          <button type="button" class="tier-btn" data-tier="special">Special</button>
+          <button type="button" class="tier-btn" data-tier="premium">Premium</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Price options</label>
+        <div class="price-presets">
+          <button type="button" class="preset-btn" data-preset="embroidery-envelope">+ Embroidery · Envelope · ₵120</button>
+          <button type="button" class="preset-btn" data-preset="woven-box">+ Woven · Box · ₵150</button>
+          <button type="button" class="preset-btn" data-preset="premium-box">+ Woven or Embroidery · Box · ₵220</button>
+        </div>
+        <div id="priceOptionRows"></div>
+        <button type="button" class="btn btn-ghost" id="addPriceRowBtn" style="margin-top:4px; padding:8px 14px; font-size:12px;">+ Add price option</button>
       </div>
       <div class="field">
         <label>Main pattern photo (uploads to the repo root)</label>
@@ -179,6 +206,8 @@ let patternsSha = null; // needed to update the file via the API
 let editingId = null;
 let draftImage = null; // {dataUrl, base64, ext} or null (unchanged) or 'REMOVE'
 let draftAchievers = []; // [{type:'existing', path}] or [{type:'new', dataUrl, base64, ext}]
+let draftTier = 'standard';
+let draftPriceOptions = []; // [{method, package, price}]
 
 /* ---------- password gate ----------
    Simple client-side gate to keep casual visitors out of the admin UI.
@@ -192,6 +221,8 @@ async function sha256Hex(text){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
+const LS_KEY = 'sa_admin_gh_creds';
+
 async function checkGatePassword(){
   const val = document.getElementById('gatePassword').value;
   const hash = await sha256Hex(val);
@@ -199,10 +230,42 @@ async function checkGatePassword(){
   if (hash === GATE_HASH){
     document.getElementById('loginGate').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
+    tryAutoConnect();
   } else {
     errEl.textContent = 'Incorrect password.';
   }
 }
+
+function loadSavedCreds(){
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e){ return null; }
+}
+function saveCreds(creds){
+  localStorage.setItem(LS_KEY, JSON.stringify(creds));
+}
+function clearSavedCreds(){
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('forgetBtn').style.display = 'none';
+  document.getElementById('rememberDevice').checked = false;
+}
+function tryAutoConnect(){
+  const saved = loadSavedCreds();
+  if (!saved) return;
+  document.getElementById('ghOwner').value = saved.owner || '';
+  document.getElementById('ghRepo').value = saved.repo || '';
+  document.getElementById('ghBranch').value = saved.branch || 'main';
+  document.getElementById('ghToken').value = saved.token || '';
+  document.getElementById('rememberDevice').checked = true;
+  document.getElementById('forgetBtn').style.display = 'inline';
+  document.getElementById('connectBtn').click();
+}
+document.getElementById('forgetBtn').addEventListener('click', () => {
+  clearSavedCreds();
+  document.getElementById('ghToken').value = '';
+  showToast('Saved token forgotten on this device');
+});
 document.getElementById('gateSubmit').addEventListener('click', checkGatePassword);
 document.getElementById('gatePassword').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') checkGatePassword();
@@ -289,6 +352,13 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     tag.textContent = gh.owner + '/' + gh.repo + ' · connected';
     status.innerHTML = '<span class="status-dot ok"></span>Connected — ' + PATTERNS.length + ' patterns loaded.';
     renderList();
+
+    if (document.getElementById('rememberDevice').checked){
+      saveCreds({ owner: gh.owner, repo: gh.repo, branch: gh.branch, token: gh.token });
+      document.getElementById('forgetBtn').style.display = 'inline';
+    } else {
+      clearSavedCreds();
+    }
   } catch (err){
     status.innerHTML = '<span class="status-dot err"></span>' + err.message;
   }
@@ -323,7 +393,7 @@ function renderList(){
     row.innerHTML = `
       <img class="row-thumb" src="${thumb}" alt="">
       <div class="row-body">
-        <p class="row-name">${p.name}</p>
+        <p class="row-name">${p.name}${p.priceOptions && p.priceOptions.length ? ` <span style="color:var(--gold); font-weight:600; font-size:12px;">· From ₵${Math.min(...p.priceOptions.map(o=>o.price))}</span>` : ''}</p>
         <p class="row-story">${p.story || 'No story yet'}</p>
       </div>
       <div class="row-actions">
@@ -356,8 +426,12 @@ function openForm(pattern){
   fStory.value = pattern ? (pattern.story || '') : '';
   draftImage = null;
   draftAchievers = (pattern && pattern.achievers) ? pattern.achievers.map(path => ({type:'existing', path})) : [];
+  draftTier = (pattern && pattern.tier) || 'standard';
+  draftPriceOptions = (pattern && pattern.priceOptions) ? pattern.priceOptions.map(o => ({...o})) : [];
   renderImgUploads(pattern);
   renderAchieverUploads();
+  renderTierSelect();
+  renderPriceOptionRows();
   formCard.classList.add('open');
   formCard.scrollIntoView({behavior:'smooth', block:'start'});
 }
@@ -407,6 +481,68 @@ achieverUploads.addEventListener('click', (e) => {
   const idx = Number(removeBtn.dataset.removeAchiever);
   draftAchievers.splice(idx, 1);
   renderAchieverUploads();
+});
+
+/* ---------- tier select ---------- */
+const tierSelect = document.getElementById('tierSelect');
+function renderTierSelect(){
+  tierSelect.querySelectorAll('.tier-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tier === draftTier);
+  });
+}
+tierSelect.addEventListener('click', (e) => {
+  const btn = e.target.closest('.tier-btn');
+  if (!btn) return;
+  draftTier = btn.dataset.tier;
+  renderTierSelect();
+});
+
+/* ---------- price options ---------- */
+const priceOptionRows = document.getElementById('priceOptionRows');
+const PRESETS = {
+  'embroidery-envelope': { method:'Embroidery inscription', package:'Envelope package', price:120 },
+  'woven-box': { method:'Woven inscription', package:'Box package', price:150 },
+  'premium-box': { method:'Woven or embroidery inscription', package:'Box package', price:220 }
+};
+function renderPriceOptionRows(){
+  priceOptionRows.innerHTML = '';
+  draftPriceOptions.forEach((opt, i) => {
+    const row = document.createElement('div');
+    row.className = 'price-row-admin';
+    row.innerHTML = `
+      <input type="text" placeholder="Method (e.g. Embroidery inscription)" value="${opt.method || ''}" data-field="method" data-idx="${i}">
+      <select data-field="package" data-idx="${i}">
+        <option value="Envelope package" ${opt.package === 'Envelope package' ? 'selected' : ''}>Envelope package</option>
+        <option value="Box package" ${opt.package === 'Box package' ? 'selected' : ''}>Box package</option>
+      </select>
+      <input type="number" placeholder="₵" value="${opt.price != null ? opt.price : ''}" data-field="price" data-idx="${i}">
+      <button type="button" class="icon-btn danger" data-remove-price="${i}" aria-label="Remove">×</button>
+    `;
+    priceOptionRows.appendChild(row);
+  });
+}
+priceOptionRows.addEventListener('input', (e) => {
+  const field = e.target.dataset.field;
+  const idx = e.target.dataset.idx;
+  if (field == null || idx == null) return;
+  const val = field === 'price' ? Number(e.target.value) : e.target.value;
+  draftPriceOptions[Number(idx)][field] = val;
+});
+priceOptionRows.addEventListener('click', (e) => {
+  const removeBtn = e.target.closest('[data-remove-price]');
+  if (!removeBtn) return;
+  draftPriceOptions.splice(Number(removeBtn.dataset.removePrice), 1);
+  renderPriceOptionRows();
+});
+document.getElementById('addPriceRowBtn').addEventListener('click', () => {
+  draftPriceOptions.push({ method:'', package:'Envelope package', price:null });
+  renderPriceOptionRows();
+});
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    draftPriceOptions.push({ ...PRESETS[btn.dataset.preset] });
+    renderPriceOptionRows();
+  });
 });
 
 function renderImgUploads(pattern){
@@ -490,7 +626,11 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
       }
     }
 
-    const record = { id, name, story: fStory.value.trim(), images, achievers };
+    const cleanPriceOptions = draftPriceOptions
+      .filter(o => o.method && o.method.trim() && o.price != null && !isNaN(o.price))
+      .map(o => ({ method: o.method.trim(), package: o.package || 'Envelope package', price: Number(o.price) }));
+
+    const record = { id, name, story: fStory.value.trim(), tier: draftTier, priceOptions: cleanPriceOptions, images, achievers };
     if (editingId){
       const idx = PATTERNS.findIndex(p => p.id === id);
       PATTERNS[idx] = record;

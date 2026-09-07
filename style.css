@@ -216,3 +216,91 @@
   cursor:pointer;
 }
 .lightbox-close svg{ width:18px; height:18px; }
+
+/* ================= PRICE BADGE + MODAL ================= */
+.price-badge{
+  position:absolute; top:8px; right:8px; z-index:5;
+  background:rgba(10,10,10,.78); backdrop-filter:blur(6px);
+  border:1px solid rgba(250,178,2,.5); border-radius:999px;
+  padding:5px 10px; font-size:11px; font-weight:700; color:var(--gold);
+  -webkit-tap-highlight-color:transparent;
+}
+.price-badge.detail{
+  position:static; display:inline-flex; margin-top:14px; padding:6px 13px; font-size:12px;
+}
+.price-modal-overlay{
+  position:fixed; inset:0; z-index:400; background:rgba(0,0,0,.72); backdrop-filter:blur(2px);
+  display:none; align-items:flex-end; justify-content:center; padding:0;
+}
+.price-modal-overlay.open{ display:flex; }
+@media (min-width:640px){
+  .price-modal-overlay{ align-items:center; padding:24px; }
+}
+.price-modal{
+  width:100%; max-width:420px; background:var(--panel); border:1px solid var(--hairline);
+  border-radius:20px 20px 0 0; padding:22px 20px calc(22px + env(safe-area-inset-bottom));
+  max-height:82vh; overflow-y:auto;
+}
+@media (min-width:640px){ .price-modal{ border-radius:var(--radius); } }
+.price-modal-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:4px; }
+.price-modal-name{ font-family:var(--serif); font-size:19px; margin:0; }
+.price-modal-tier{ font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); font-weight:700; margin:2px 0 16px; }
+.price-modal-close{
+  width:30px; height:30px; border-radius:50%; border:1px solid var(--hairline); background:transparent;
+  color:var(--white); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+}
+.price-option-list{ display:flex; flex-direction:column; gap:8px; }
+.price-option-row{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:var(--panel2); border:1px solid var(--hairline); border-radius:10px; padding:11px 13px;
+}
+.price-option-info .method{ font-size:13.5px; font-weight:600; }
+.price-option-info .package{ font-size:11.5px; color:var(--ink-faint); margin-top:1px; }
+.price-option-amount{ font-family:var(--serif); font-size:16px; color:var(--gold); font-weight:600; white-space:nowrap; }
+.price-modal-link{
+  display:block; text-align:center; margin-top:16px; font-size:12.5px; color:var(--ink-muted);
+  text-decoration:none; border-top:1px solid var(--hairline); padding-top:14px;
+}
+
+/* ================= OPTION SELECTOR (pattern detail page) ================= */
+.option-section{ max-width:760px; margin:22px auto 0; padding:0 22px; }
+.option-title{ font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin:0 0 12px; }
+.option-pills{ display:flex; flex-direction:column; gap:8px; }
+.option-pill{
+  display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;
+  background:var(--panel); border:1px solid var(--hairline); border-radius:12px; padding:13px 14px;
+  cursor:pointer; text-align:left; color:var(--white); font-family:var(--sans);
+  -webkit-tap-highlight-color:transparent; transition:border-color .15s ease, background .15s ease;
+}
+.option-pill.selected{ border-color:var(--gold); background:rgba(250,178,2,.08); }
+.option-pill .method{ font-size:14px; font-weight:600; }
+.option-pill .package{ font-size:11.5px; color:var(--ink-faint); margin-top:2px; }
+.option-pill .amount{ font-family:var(--serif); font-size:16px; color:var(--gold); font-weight:600; white-space:nowrap; }
+.option-pill .dot{
+  width:16px; height:16px; border-radius:50%; border:1.5px solid var(--ink-faint); flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.option-pill.selected .dot{ border-color:var(--gold); }
+.option-pill.selected .dot::after{ content:''; width:8px; height:8px; border-radius:50%; background:var(--gold); }
+
+/* ================= ADMIN: tier + price option builder ================= */
+.tier-select{ display:flex; gap:8px; flex-wrap:wrap; }
+.tier-btn{
+  flex:1; min-width:90px; padding:10px 12px; border-radius:10px; border:1px solid var(--hairline);
+  background:var(--panel2); color:var(--ink-muted); font-size:12.5px; font-weight:600; cursor:pointer; text-align:center;
+}
+.tier-btn.active{ border-color:var(--gold); color:var(--gold); background:rgba(250,178,2,.08); }
+.price-row-admin{
+  display:grid; grid-template-columns:1fr 1fr 90px 32px; gap:8px; align-items:center; margin-bottom:8px;
+}
+.price-row-admin select, .price-row-admin input{
+  background:var(--panel2); border:1px solid var(--hairline); border-radius:8px; padding:9px 10px;
+  color:var(--white); font-size:12.5px; width:100%;
+}
+.price-row-admin .icon-btn{ width:32px; height:32px; }
+.price-presets{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 4px; }
+.preset-btn{
+  font-size:11.5px; padding:7px 11px; border-radius:999px; border:1px dashed var(--hairline);
+  background:transparent; color:var(--ink-muted); cursor:pointer;
+}
+.preset-btn:hover{ border-color:var(--gold); color:var(--gold); }
