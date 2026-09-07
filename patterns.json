@@ -675,7 +675,9 @@
           "price": 220
         }
       ],
-      "images": [],
+      "images": [
+        "premium-kente-uga.jpeg"
+      ],
       "achievers": []
     },
     {
