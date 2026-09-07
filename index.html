@@ -7,7 +7,7 @@
 <meta name="description" content="Browse the Sash Afrique graduation kente pattern collection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="view-gallery">
@@ -27,22 +27,6 @@
 </section>
 
 <main class="gallery" id="gallery"></main>
-
-<div class="price-modal-overlay" id="priceModalOverlay">
-  <div class="price-modal">
-    <div class="price-modal-head">
-      <div>
-        <p class="price-modal-name" id="priceModalName"></p>
-        <p class="price-modal-tier" id="priceModalTier"></p>
-      </div>
-      <button class="price-modal-close" id="priceModalClose" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div>
-    <div class="price-option-list" id="priceModalList"></div>
-    <a class="price-modal-link" id="priceModalLink" href="#">See full pattern &rarr;</a>
-  </div>
-</div>
 
 <div class="admin-entry"><a href="admin.html">Admin</a></div>
 <footer class="site-footer">
@@ -64,58 +48,54 @@
   }
   document.getElementById('patternCount').textContent = PATTERNS.length + ' patterns';
 
+  /* First word of the method name — "Embroidery inscription" -> "Embroidery" */
+  function shortMethod(method){ return (method || '').split(' ')[0]; }
+
+  /* Builds the rows for the on-image price tag.
+     - Distinct prices (e.g. standard: 120 embroidery / 150 woven) -> one row per price, each labelled.
+     - One price shared across methods (e.g. premium: 220 either way) -> a single big row, no label split.
+     - One price option only (e.g. specials: embroidery only) -> a single row, labelled. */
+  function priceTagRows(p){
+    const opts = p.priceOptions || [];
+    if (!opts.length) return null;
+    const distinct = [...new Set(opts.map(o => o.price))];
+    if (distinct.length === 1){
+      const label = opts.length === 1 ? shortMethod(opts[0].method) : '';
+      return [{ price: distinct[0], label }];
+    }
+    return opts.map(o => ({ price: o.price, label: shortMethod(o.method) }));
+  }
+
   PATTERNS.forEach((p, idx) => {
     const imgs = patternImages(p);
     const card = document.createElement('a');
     card.className = 'card';
     card.href = 'pattern.html?id=' + encodeURIComponent(p.id);
     card.style.animationDelay = (Math.min(idx,10) * 0.04) + 's';
-    const lowest = (p.priceOptions && p.priceOptions.length) ? Math.min(...p.priceOptions.map(o => o.price)) : null;
+    const rows = priceTagRows(p);
     card.innerHTML = `
       <div class="card-frame">
         <img src="${imgs[0]}" alt="${p.name} kente pattern" loading="lazy" draggable="false">
         <div class="watermark"></div>
         <div class="watermark-text">SASH AFRIQUE · SASH AFRIQUE</div>
+        ${rows ? `
+          <div class="price-tag">
+            ${rows.map(r => `
+              <div class="price-tag-row">
+                <span class="amt">₵${r.price}</span>
+                ${r.label ? `<span class="label">${r.label}</span>` : ''}
+              </div>
+            `).join('')}
+          </div>` : ''}
       </div>
       <div class="card-name">${p.name}</div>
-      ${lowest != null
-        ? `<button type="button" class="card-price" data-price-id="${p.id}">From ₵${lowest}</button>`
-        : `<div class="card-price muted">Price on request</div>`}
+      <div class="card-cta">
+        See More Styles
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      </div>
     `;
     gallery.appendChild(card);
   });
-
-  /* ---------- price modal ---------- */
-  const overlay = document.getElementById('priceModalOverlay');
-  const modalName = document.getElementById('priceModalName');
-  const modalTier = document.getElementById('priceModalTier');
-  const modalList = document.getElementById('priceModalList');
-  const modalLink = document.getElementById('priceModalLink');
-  const TIER_LABELS = { standard:'Standard', special:'Special', premium:'Premium' };
-
-  gallery.addEventListener('click', (e) => {
-    const badge = e.target.closest('.card-price[data-price-id]');
-    if (!badge) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const pattern = PATTERNS.find(p => p.id === badge.dataset.priceId);
-    if (!pattern) return;
-    modalName.textContent = pattern.name;
-    modalTier.textContent = TIER_LABELS[pattern.tier] || '';
-    modalList.innerHTML = (pattern.priceOptions || []).map(o => `
-      <div class="price-option-row">
-        <div class="price-option-info">
-          <div class="method">${o.method}</div>
-          <div class="package">${o.package}</div>
-        </div>
-        <div class="price-option-amount">₵${o.price}</div>
-      </div>
-    `).join('');
-    modalLink.href = 'pattern.html?id=' + encodeURIComponent(pattern.id);
-    overlay.classList.add('open');
-  });
-  document.getElementById('priceModalClose').addEventListener('click', () => overlay.classList.remove('open'));
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
 })();
 
 document.addEventListener('contextmenu', e => e.preventDefault());
