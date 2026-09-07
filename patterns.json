@@ -216,6 +216,19 @@
       "id": "jomo-kenyatta",
       "name": "Jomo Kenyatta",
       "story": "A founder's pattern — steady, deliberate, and built for the graduate laying the first stones of something lasting.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "jomo-kenyatta.jpg"
       ],
