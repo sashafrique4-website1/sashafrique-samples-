@@ -4,6 +4,7 @@
     --ink-muted:rgba(255,255,255,.62); --ink-faint:rgba(255,255,255,.38);
     --hairline:rgba(255,255,255,.09); --radius:14px;
     --serif:'Playfair Display', Georgia, serif; --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono:'IBM Plex Mono', 'Courier New', monospace;
     --wa-green:#25D366; --danger:#e5484d;
   }
   *{box-sizing:border-box;}
@@ -58,7 +59,7 @@
   @media (min-width:980px){ .gallery{ grid-template-columns:repeat(4,1fr); } }
   @media (min-width:1280px){ .gallery{ grid-template-columns:repeat(5,1fr); } }
 
-  .card{ display:block; text-decoration:none; color:inherit; cursor:pointer; opacity:0; transform:translateY(10px); animation:rise .5s ease forwards; }
+  .card{ display:flex; flex-direction:column; align-items:stretch; text-decoration:none; color:inherit; cursor:pointer; opacity:0; transform:translateY(10px); animation:rise .5s ease forwards; }
   @keyframes rise{ to{ opacity:1; transform:translateY(0); } }
   .card-frame{
     position:relative; aspect-ratio:4/5; border-radius:var(--radius); overflow:hidden;
@@ -222,11 +223,22 @@
   position:absolute; top:8px; right:8px; z-index:5;
   background:rgba(10,10,10,.78); backdrop-filter:blur(6px);
   border:1px solid rgba(250,178,2,.5); border-radius:999px;
-  padding:5px 10px; font-size:11px; font-weight:700; color:var(--gold);
+  padding:5px 10px; font-family:var(--mono); font-size:12px; font-weight:700; color:var(--gold);
   -webkit-tap-highlight-color:transparent;
 }
 .price-badge.detail{
-  position:static; display:inline-flex; margin-top:14px; padding:6px 13px; font-size:12px;
+  position:static; display:inline-flex; margin-top:14px; padding:6px 13px; font-size:13px;
+}
+.card-price{
+  display:inline-flex; align-items:center; justify-content:center; align-self:center; gap:0; margin-top:6px;
+  background:rgba(250,178,2,.14); border:1px solid rgba(250,178,2,.4); border-radius:999px;
+  font-family:var(--mono); font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.01em;
+  padding:5px 12px; cursor:pointer; -webkit-tap-highlight-color:transparent;
+}
+.card-name + .card-price{ width:auto; }
+.card-price.muted{
+  color:var(--ink-faint); font-weight:500; cursor:default; background:transparent;
+  border-color:var(--hairline); font-family:var(--sans); font-size:11.5px;
 }
 .price-modal-overlay{
   position:fixed; inset:0; z-index:400; background:rgba(0,0,0,.72); backdrop-filter:blur(2px);
@@ -256,7 +268,7 @@
 }
 .price-option-info .method{ font-size:13.5px; font-weight:600; }
 .price-option-info .package{ font-size:11.5px; color:var(--ink-faint); margin-top:1px; }
-.price-option-amount{ font-family:var(--serif); font-size:16px; color:var(--gold); font-weight:600; white-space:nowrap; }
+.price-option-amount{ font-family:var(--mono); font-size:15px; color:var(--gold); font-weight:700; white-space:nowrap; }
 .price-modal-link{
   display:block; text-align:center; margin-top:16px; font-size:12.5px; color:var(--ink-muted);
   text-decoration:none; border-top:1px solid var(--hairline); padding-top:14px;
@@ -275,7 +287,7 @@
 .option-pill.selected{ border-color:var(--gold); background:rgba(250,178,2,.08); }
 .option-pill .method{ font-size:14px; font-weight:600; }
 .option-pill .package{ font-size:11.5px; color:var(--ink-faint); margin-top:2px; }
-.option-pill .amount{ font-family:var(--serif); font-size:16px; color:var(--gold); font-weight:600; white-space:nowrap; }
+.option-pill .amount{ font-family:var(--mono); font-size:15px; color:var(--gold); font-weight:700; white-space:nowrap; }
 .option-pill .dot{
   width:16px; height:16px; border-radius:50%; border:1.5px solid var(--ink-faint); flex-shrink:0;
   display:flex; align-items:center; justify-content:center;

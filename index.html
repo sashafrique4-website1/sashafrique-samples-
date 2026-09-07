@@ -7,7 +7,7 @@
 <meta name="description" content="Browse the Sash Afrique graduation kente pattern collection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body class="view-gallery">
@@ -76,9 +76,11 @@
         <img src="${imgs[0]}" alt="${p.name} kente pattern" loading="lazy" draggable="false">
         <div class="watermark"></div>
         <div class="watermark-text">SASH AFRIQUE · SASH AFRIQUE</div>
-        ${lowest != null ? `<button type="button" class="price-badge" data-price-id="${p.id}">From ₵${lowest}</button>` : ''}
       </div>
       <div class="card-name">${p.name}</div>
+      ${lowest != null
+        ? `<button type="button" class="card-price" data-price-id="${p.id}">From ₵${lowest}</button>`
+        : `<div class="card-price muted">Price on request</div>`}
     `;
     gallery.appendChild(card);
   });
@@ -92,7 +94,7 @@
   const TIER_LABELS = { standard:'Standard', special:'Special', premium:'Premium' };
 
   gallery.addEventListener('click', (e) => {
-    const badge = e.target.closest('.price-badge');
+    const badge = e.target.closest('.card-price[data-price-id]');
     if (!badge) return;
     e.preventDefault();
     e.stopPropagation();
