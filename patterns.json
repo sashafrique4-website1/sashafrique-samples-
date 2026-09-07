@@ -321,6 +321,14 @@
       "id": "premium-kente-sene",
       "name": "Premium Kente Sene",
       "story": "A premium kente colorway carrying Senegal's palette, for the graduate celebrating cross-border African pride.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-sene.jpg"
       ],
