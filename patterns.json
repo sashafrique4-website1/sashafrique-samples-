@@ -367,6 +367,19 @@
       "id": "premium-kente-rwe",
       "name": "Premium Kente RWE",
       "story": "A premium kente colorway carrying Rwanda's palette, for the graduate celebrating cross-border African pride.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [],
       "achievers": []
     },
