@@ -107,6 +107,19 @@
       "id": "malcolm-x",
       "name": "Malcolm X",
       "story": "Bold, direct, unapologetic — this pattern is for the graduate whose convictions were forged through struggle and sharpened by truth.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "malcolm-x.jpg"
       ],
