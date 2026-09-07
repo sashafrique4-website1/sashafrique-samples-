@@ -399,6 +399,19 @@
       "id": "citg",
       "name": "CITG",
       "story": "Precision and structure woven into cloth, for the graduate whose achievement is built on rigour and craft.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "citg.jpg"
       ],
