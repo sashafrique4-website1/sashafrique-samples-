@@ -296,6 +296,19 @@
       "id": "marcus-garvey",
       "name": "Marcus Garvey",
       "story": "A pattern of pride and pan-African vision, for the graduate who carries their heritage as a source of strength.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "marcus-garvey.jpg"
       ],
