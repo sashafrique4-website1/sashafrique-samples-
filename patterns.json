@@ -198,6 +198,19 @@
       "id": "ellen-johnson-sirleaf",
       "name": "Ellen Johnson Sirleaf",
       "story": "A pattern of firsts and quiet resolve, honouring the graduate who breaks ground for everyone coming behind them.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "ellen-johnson-sirleaf.jpg"
       ],
