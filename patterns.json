@@ -591,7 +591,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "paul-biya.jpeg"
+      ],
       "achievers": []
     },
     {
