@@ -421,6 +421,19 @@
       "id": "unimac-kente",
       "name": "Unimac Kente",
       "story": "A pattern of institutional pride, celebrating the community that shaped this achievement.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [],
       "achievers": []
     },
