@@ -710,7 +710,9 @@
           "price": 150
         }
       ],
-      "images": [],
+      "images": [
+        "philip-gbeho.jpeg"
+      ],
       "achievers": []
     },
     {
