@@ -267,6 +267,14 @@
       "id": "premium-thomas-sankara",
       "name": "Premium Thomas Sankara",
       "story": "The premium edition of the Thomas Sankara pattern, woven with a finer hand for graduates who want every detail of courage and self-reliance rendered in full.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-thomas-sankara.jpg"
       ],
