@@ -269,6 +269,14 @@
       "id": "premium-kente-1",
       "name": "Premium Kente",
       "story": "A premium house kente colorway, densely woven for the graduate who wants a richer, more textured finish.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-1.jpg"
       ],
