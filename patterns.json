@@ -258,6 +258,19 @@
       "id": "wole-soyinka",
       "name": "Wole Soyinka",
       "story": "A pattern for the storytellers and truth-tellers, honouring sharp minds and the courage to speak clearly.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "wole-soyinka.jpg"
       ],
