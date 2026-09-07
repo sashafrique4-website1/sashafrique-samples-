@@ -246,6 +246,14 @@
       "id": "premium-malcolm-x",
       "name": "Premium Malcolm X",
       "story": "The premium Malcolm X weave, for the graduate whose convictions call for nothing less than the finest craftsmanship.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [],
       "achievers": []
     },
