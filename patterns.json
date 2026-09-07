@@ -153,6 +153,19 @@
       "id": "patrice-lumumba",
       "name": "Patrice Lumumba",
       "story": "A pattern of conviction — for the graduate who stands firmly for what they believe in, whatever the cost.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "patrice-lumumba.jpg"
       ],
