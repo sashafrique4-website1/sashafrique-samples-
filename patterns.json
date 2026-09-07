@@ -131,6 +131,19 @@
       "id": "nelson-mandela",
       "name": "Nelson Mandela",
       "story": "Woven for patience, forgiveness, and the long walk to purpose, this pattern honours every graduate who stayed the course.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "nelson-mandela.jpg"
       ],
