@@ -15,6 +15,11 @@
     padding:20px; margin-bottom:24px;
   }
   .connect-card.connected{ border-color:rgba(250,178,2,.4); }
+  .connect-card.collapsed{ display:none; }
+  .manage-conn{
+    display:none; font-size:11px; color:var(--ink-faint); background:none; border:none;
+    text-decoration:underline dotted; cursor:pointer; padding:0; margin-left:8px;
+  }
   .connect-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
   .connect-field{ flex:1; min-width:140px; }
   .connect-field label{ display:block; font-size:11px; color:var(--ink-muted); margin-bottom:6px; }
@@ -95,6 +100,7 @@
     <img class="brand-mark" src="logo.png" alt="Sash Afrique Ltd">
   </a>
   <div class="topbar-tag" id="connTag">Not connected</div>
+  <button class="manage-conn" id="manageConnBtn" type="button">Change</button>
 </div>
 
 <div class="admin-wrap">
@@ -267,6 +273,9 @@ document.getElementById('forgetBtn').addEventListener('click', () => {
   showToast('Saved token forgotten on this device');
 });
 document.getElementById('gateSubmit').addEventListener('click', checkGatePassword);
+document.getElementById('manageConnBtn').addEventListener('click', () => {
+  document.getElementById('connectCard').classList.remove('collapsed');
+});
 document.getElementById('gatePassword').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') checkGatePassword();
 });
@@ -347,9 +356,10 @@ document.getElementById('connectBtn').addEventListener('click', async () => {
     PATTERNS = data.patterns || [];
     patternsSha = file.sha;
 
-    document.getElementById('connectCard').classList.add('connected');
+    document.getElementById('connectCard').classList.add('connected', 'collapsed');
     document.getElementById('mainPanel').classList.remove('disabled');
     tag.textContent = gh.owner + '/' + gh.repo + ' · connected';
+    document.getElementById('manageConnBtn').style.display = 'inline';
     status.innerHTML = '<span class="status-dot ok"></span>Connected — ' + PATTERNS.length + ' patterns loaded.';
     renderList();
 

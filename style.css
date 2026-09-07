@@ -240,7 +240,7 @@
 }
 .price-tag-row .amt{
   display:block; font-family:'Bebas Neue', var(--sans); font-size:20px; line-height:1;
-  letter-spacing:.02em;
+  letter-spacing:.02em; font-weight:700; -webkit-text-stroke:.5px currentColor;
 }
 .price-tag:has(.price-tag-row + .price-tag-row) .price-tag-row .amt{ font-size:16px; }
 .price-tag-row .label{
