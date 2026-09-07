@@ -649,21 +649,6 @@
       "achievers": []
     },
     {
-      "id": "premium-kente-2",
-      "name": "Premium Kente",
-      "story": "A second premium house colorway, woven with its own distinct palette and finish.",
-      "tier": "premium",
-      "priceOptions": [
-        {
-          "method": "Woven or embroidery inscription",
-          "package": "Box package",
-          "price": 220
-        }
-      ],
-      "images": [],
-      "achievers": []
-    },
-    {
       "id": "premium-kente-uga",
       "name": "Premium Kente Uga",
       "story": "A premium kente colorway carrying Uganda's palette, for the graduate celebrating cross-border African pride.",
