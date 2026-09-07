@@ -276,6 +276,14 @@
       "id": "premium-kofi-annan",
       "name": "Premium Kofi Annan",
       "story": "A premium weave of the Kofi Annan pattern, refined for the graduate whose calm influence deserves the finest cloth.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kofi-annan.jpg"
       ],
