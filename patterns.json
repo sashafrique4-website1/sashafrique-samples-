@@ -225,6 +225,19 @@
       "id": "julius-nyerere",
       "name": "Julius Nyerere",
       "story": "Woven for the teacher in every achiever, this pattern honours wisdom shared freely and purpose held closely.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "julius-nyerere.jpg"
       ],
