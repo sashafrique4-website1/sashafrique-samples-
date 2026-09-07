@@ -80,6 +80,19 @@
       "id": "kwame-nkrumah",
       "name": "Kwame Nkrumah",
       "story": "A tribute to vision and independence of thought, this pattern marks the graduate ready to build something the world hasn't seen yet.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "kwame-nkrumah.jpg"
       ],
