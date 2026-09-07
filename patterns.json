@@ -260,6 +260,14 @@
       "id": "premium-patrice-lumumba",
       "name": "Premium Patrice Lumumba",
       "story": "The premium edition of the Patrice Lumumba pattern, for the graduate whose conviction deserves an equally uncompromising weave.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-patrice-lumumba.jpg"
       ],
