@@ -467,7 +467,9 @@
           "price": 220
         }
       ],
-      "images": [],
+      "images": [
+        "premium-yaa-asantewaa.jpeg"
+      ],
       "achievers": []
     },
     {
