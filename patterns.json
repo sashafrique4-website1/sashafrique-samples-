@@ -381,6 +381,19 @@
       "id": "theodosia-salome-okoh",
       "name": "Theodosia Salome Okoh",
       "story": "A pattern of quiet design and lasting symbolism, for the graduate whose contribution outlives the moment.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "theodosia-salome-okoh.jpg"
       ],
