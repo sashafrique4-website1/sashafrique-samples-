@@ -390,6 +390,19 @@
       "id": "icag",
       "name": "ICAG",
       "story": "A pattern of professional distinction, marking the discipline and standards behind every chartered achievement.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "icag.jpg"
       ],
