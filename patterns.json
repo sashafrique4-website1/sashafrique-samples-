@@ -447,6 +447,14 @@
       "id": "premium-kente-sapphire",
       "name": "Premium Kente Sapphire",
       "story": "A premium colorway in sapphire blue, white, and black, for the graduate who wants something crisp and modern.",
+      "tier": "premium",
+      "priceOptions": [
+        {
+          "method": "Woven or embroidery inscription",
+          "package": "Box package",
+          "price": 220
+        }
+      ],
       "images": [
         "premium-kente-sapphire.jpg"
       ],
