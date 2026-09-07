@@ -312,6 +312,19 @@
       "id": "ephraim-amu",
       "name": "Ephraim Amu",
       "story": "A composer's pattern — rhythmic and intentional, celebrating the graduate whose discipline turned practice into artistry.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "ephraim-amu.jpg"
       ],
