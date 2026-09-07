@@ -207,6 +207,19 @@
       "id": "tetteh-quarshie",
       "name": "Tetteh Quarshie",
       "story": "Rooted in enterprise and legacy-building, this pattern celebrates the graduate planting seeds for generations ahead.",
+      "tier": "standard",
+      "priceOptions": [
+        {
+          "method": "Embroidery inscription",
+          "package": "Envelope package",
+          "price": 120
+        },
+        {
+          "method": "Woven inscription",
+          "package": "Box package",
+          "price": 150
+        }
+      ],
       "images": [
         "tetteh-quarshie.jpg"
       ],
