@@ -41,7 +41,7 @@
   try {
     const res = await fetch('patterns.json');
     const data = await res.json();
-    PATTERNS = data.patterns || [];
+    PATTERNS = (data.patterns || []).filter(p => !p.hidden);
   } catch (e) {
     document.getElementById('patternCount').textContent = 'Could not load patterns.';
     return;
