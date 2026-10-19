@@ -9,6 +9,46 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<style>
+/* ===== Promo banner + group orders (brand: black, white, #FAB202) ===== */
+.promo-banner{background:#FAB202;color:#000;font-family:'Inter',sans-serif;}
+.promo-inner{max-width:1100px;margin:0 auto;padding:10px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px 14px;text-align:center;}
+.promo-badge{background:#000;color:#FAB202;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:999px;}
+.promo-text{font-size:14px;font-weight:600;line-height:1.4;}
+.promo-cta{color:#000;font-size:13px;font-weight:700;text-decoration:underline;white-space:nowrap;}
+.promo-timer{background:#000;color:#FAB202;text-align:center;font-size:12px;font-weight:600;letter-spacing:.04em;padding:6px 12px;font-family:'Inter',sans-serif;}
+.card-promo{margin:2px 0 0;font-size:12px;font-weight:600;color:#FAB202;font-family:'Inter',sans-serif;}
+
+.group-section{max-width:1100px;margin:56px auto 0;padding:0 20px;font-family:'Inter',sans-serif;color:#fff;scroll-margin-top:16px;}
+.group-eyebrow{color:#FAB202;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;}
+.group-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 14px;font-weight:600;}
+.group-title em{color:#FAB202;font-style:italic;}
+.group-intro{font-size:16px;line-height:1.65;color:#e8e8e8;max-width:720px;margin:0 0 28px;}
+.group-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.group-card{background:#111;border:1px solid #2a2a2a;border-radius:16px;padding:22px;}
+.group-card h3{font-family:'Playfair Display',serif;font-size:20px;margin:0 0 14px;font-weight:600;}
+.group-steps{list-style:none;margin:0;padding:0;counter-reset:gs;}
+.group-steps li{counter-increment:gs;position:relative;padding:0 0 14px 40px;font-size:15px;line-height:1.55;color:#e8e8e8;}
+.group-steps li:last-child{padding-bottom:0;}
+.group-steps li::before{content:counter(gs);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:#FAB202;color:#000;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.tier-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #2a2a2a;font-size:15px;}
+.tier-row:last-of-type{border-bottom:0;}
+.tier-size{font-weight:600;}
+.tier-pct{background:#FAB202;color:#000;font-weight:700;padding:4px 12px;border-radius:999px;font-size:14px;}
+.group-extra{margin-top:14px;padding:14px;border:1px dashed #FAB202;border-radius:12px;font-size:14px;line-height:1.55;color:#e8e8e8;}
+.group-extra strong{color:#FAB202;}
+.calc{margin-top:18px;padding-top:18px;border-top:1px solid #2a2a2a;}
+.calc label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:#bbb;}
+.calc input{width:100%;box-sizing:border-box;background:#000;color:#fff;border:1px solid #333;border-radius:10px;padding:12px 14px;font-size:16px;font-family:inherit;}
+.calc input:focus{outline:none;border-color:#FAB202;}
+.calc-result{margin-top:12px;font-size:14px;line-height:1.55;color:#e8e8e8;min-height:22px;}
+.calc-result strong{color:#FAB202;}
+.group-note{margin-top:14px;font-size:13px;color:#aaa;line-height:1.5;}
+.group-cta-wrap{text-align:center;margin-top:26px;}
+.group-cta{display:inline-block;background:#FAB202;color:#000;font-weight:700;font-size:16px;padding:14px 28px;border-radius:999px;text-decoration:none;}
+@media(max-width:760px){.group-grid{grid-template-columns:1fr;}.promo-text{font-size:13px;}}
+</style>
 </head>
 <body class="view-gallery">
 
@@ -33,6 +73,46 @@
   <p>SASH <span class="gold">AFRIQUE</span> &middot; Handcrafted in Ghana &middot; © 2026</p>
 </footer>
 
+
+<script>
+/* =====================================================================
+   PROMO SETTINGS  —  edit this block any time. Nothing else needs touching.
+   ===================================================================== */
+window.PROMO = {
+  enabled: true,                 // set to false to hide the banner + group section completely
+  endsOn: "2026-11-30",          // last day of the offer (YYYY-MM-DD). Everything hides automatically after this day.
+  orderUrl: "https://www.sashafrique.com/",   // <-- where the "Order online" / "Place a group order" buttons go
+  onlineDiscountPercent: 5,      // discount for ordering online
+
+  banner: {
+    badge: "Limited offer",
+    headline: "",                // leave empty to auto-write it from the numbers below, or type your own sentence
+    cta: "See group discounts"
+  },
+
+  group: {
+    title: "Order together, <em>save more</em>",
+    intro: "A group order is when 10 or more people from the same school, class or organisation order their sashes together. The more people in your group, the bigger the discount for everyone.",
+    steps: [
+      "Gather your group: a class, a department or a whole school. You need at least 10 sashes in total.",
+      "Everyone picks their pattern and inscription type (embroidery or woven).",
+      "Each person, or one coordinator on behalf of everyone, orders online using the same school or group name.",
+      "We add up the sashes in your group and apply the discount for your size.",
+      "We make everything together and deliver it to your school in one go."
+    ],
+    tiers: [                      // min / max = number of sashes in the group. max: null means "and above"
+      { min: 10, max: 24,   percent: 5  },
+      { min: 25, max: 49,   percent: 10 },
+      { min: 50, max: null, percent: 15 }
+    ],
+    deliveryTitle: "Group delivery to your school",
+    deliveryNote: "Your whole group's sashes are delivered to your school together, in one trip. The delivery cost depends on your school's location and is confirmed when you order.",
+    examplePrice: 120,           // price used in the "see your saving" example (embroidery price)
+    cta: "Place a group order",
+    footnote: "Individual orders placed online still get the online discount. Group discounts apply to groups of 10 or more."
+  }
+};
+</script>
 <script src="patterns.js"></script>
 <script>
 (async function(){
@@ -103,6 +183,105 @@ document.addEventListener('dragstart', e => e.preventDefault());
 document.addEventListener('selectstart', e => {
   if (e.target && e.target.closest('.gallery')) e.preventDefault();
 });
+</script>
+
+<script>
+/* ===== Promo rendering (reads window.PROMO above) ===== */
+(function(){
+  const P = window.PROMO;
+  if (!P || !P.enabled) return;
+  const end = new Date(P.endsOn + 'T23:59:59');
+  const now = new Date();
+  if (isNaN(end) || now > end) return;           // offer over -> show nothing
+
+  const daysLeft = Math.max(1, Math.ceil((end - now) / 86400000));
+  const endLabel = end.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+  const tiers = P.group.tiers;
+  const maxPct = Math.max(...tiers.map(t => t.percent));
+  const minGroup = Math.min(...tiers.map(t => t.min));
+  const fmt = n => '₵' + (Math.round(n * 100) / 100).toLocaleString('en-GB');
+
+  /* Banner */
+  const headline = P.banner.headline ||
+    `Order online and get ${P.onlineDiscountPercent}% off. Order as a group of ${minGroup}+ and save up to ${maxPct}%.`;
+  const banner = document.createElement('div');
+  banner.innerHTML = `
+    <div class="promo-banner">
+      <div class="promo-inner">
+        <span class="promo-badge">${P.banner.badge}</span>
+        <span class="promo-text">${headline}</span>
+        <a class="promo-cta" href="#group-orders">${P.banner.cta} →</a>
+      </div>
+    </div>
+    <div class="promo-timer">Offer ends ${endLabel} · ${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} left</div>`;
+  const topbar = document.querySelector('.topbar');
+  topbar.parentNode.insertBefore(banner, topbar.nextSibling);
+
+  /* Small tag on every pattern card (cards are built after load, so watch the gallery) */
+  const gallery = document.getElementById('gallery');
+  function tagCards(){
+    gallery.querySelectorAll('.card-name').forEach(n => {
+      if (n.nextElementSibling && n.nextElementSibling.classList.contains('card-promo')) return;
+      const t = document.createElement('div');
+      t.className = 'card-promo';
+      t.textContent = P.onlineDiscountPercent + '% off when you order online';
+      n.parentNode.insertBefore(t, n.nextSibling);
+    });
+  }
+  new MutationObserver(tagCards).observe(gallery, { childList: true });
+  tagCards();
+
+  /* Group order section */
+  const G = P.group;
+  const range = t => t.max ? `${t.min} – ${t.max} sashes` : `${t.min}+ sashes`;
+  const sec = document.createElement('section');
+  sec.className = 'group-section';
+  sec.id = 'group-orders';
+  sec.innerHTML = `
+    <div class="group-eyebrow">Group Orders</div>
+    <h2 class="group-title">${G.title}</h2>
+    <p class="group-intro">${G.intro}</p>
+    <div class="group-grid">
+      <div class="group-card">
+        <h3>How a group order works</h3>
+        <ol class="group-steps">${G.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+      </div>
+      <div class="group-card">
+        <h3>Your group discount</h3>
+        ${tiers.map(t => `
+          <div class="tier-row"><span class="tier-size">${range(t)}</span><span class="tier-pct">${t.percent}% off</span></div>`).join('')}
+        <div class="group-extra"><strong>${G.deliveryTitle}.</strong> ${G.deliveryNote}</div>
+        <div class="calc">
+          <label for="groupQty">How many sashes are in your group?</label>
+          <input id="groupQty" type="number" min="1" inputmode="numeric" placeholder="e.g. 30">
+          <div class="calc-result" id="groupResult"></div>
+        </div>
+      </div>
+    </div>
+    <div class="group-cta-wrap">
+      <a class="group-cta" href="${P.orderUrl}" target="_blank" rel="noopener">${G.cta}</a>
+      <p class="group-note">${G.footnote}</p>
+    </div>`;
+  const anchor = document.querySelector('.admin-entry');
+  anchor.parentNode.insertBefore(sec, anchor);
+
+  const qty = document.getElementById('groupQty');
+  const out = document.getElementById('groupResult');
+  qty.addEventListener('input', () => {
+    const n = parseInt(qty.value, 10);
+    if (!n || n < 1){ out.innerHTML = ''; return; }
+    const tier = tiers.filter(t => n >= t.min && (!t.max || n <= t.max))[0];
+    if (!tier){
+      out.innerHTML = `Add <strong>${minGroup - n} more</strong> to reach a group of ${minGroup} and unlock <strong>${tiers[0].percent}% off</strong>.`;
+      return;
+    }
+    const each = G.examplePrice * (1 - tier.percent / 100);
+    const saved = (G.examplePrice - each) * n;
+    const next = tiers.filter(t => t.min > n).sort((a,b) => a.min - b.min)[0];
+    out.innerHTML = `A group of <strong>${n}</strong> gets <strong>${tier.percent}% off</strong>. On a ${fmt(G.examplePrice)} sash that is ${fmt(each)} each, saving your group <strong>${fmt(saved)}</strong> in total.` +
+      (next ? ` Add ${next.min - n} more to reach <strong>${next.percent}% off</strong>.` : '');
+  });
+})();
 </script>
 </body>
 </html>
