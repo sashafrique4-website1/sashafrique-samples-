@@ -79,6 +79,16 @@
     display:flex; align-items:center; justify-content:center; cursor:pointer;
     color:var(--ink-faint); font-size:24px; background:var(--panel2);
   }
+
+  /* Hide / show toggle */
+  .row.is-hidden{ opacity:.55; }
+  .row.is-hidden .row-thumb{ filter:grayscale(1); }
+  .hidden-pill{
+    display:inline-block; margin-left:8px; padding:2px 8px; border-radius:999px;
+    background:var(--gold); color:#000; font-size:10.5px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; vertical-align:middle;
+  }
+  .icon-btn.hide-btn.active{ color:var(--gold); border-color:var(--gold); }
 </style>
 </head>
 <body class="view-admin">
@@ -399,14 +409,19 @@ function renderList(){
   PATTERNS.forEach(p => {
     const thumb = (p.images && p.images[0]) || placeholderThumb(p.name);
     const row = document.createElement('div');
-    row.className = 'row';
+    row.className = 'row' + (p.hidden ? ' is-hidden' : '');
     row.innerHTML = `
       <img class="row-thumb" src="${thumb}" alt="">
       <div class="row-body">
-        <p class="row-name">${p.name}${p.priceOptions && p.priceOptions.length ? ` <span style="color:var(--gold); font-weight:600; font-size:12px;">· From ₵${Math.min(...p.priceOptions.map(o=>o.price))}</span>` : ''}</p>
+        <p class="row-name">${p.name}${p.hidden ? '<span class="hidden-pill">Hidden</span>' : ''}${p.priceOptions && p.priceOptions.length ? ` <span style="color:var(--gold); font-weight:600; font-size:12px;">· From ₵${Math.min(...p.priceOptions.map(o=>o.price))}</span>` : ''}</p>
         <p class="row-story">${p.story || 'No story yet'}</p>
       </div>
       <div class="row-actions">
+        <button class="icon-btn hide-btn ${p.hidden ? 'active' : ''}" data-togglehide="${p.id}" aria-label="${p.hidden ? 'Show in gallery' : 'Hide from gallery'}" title="${p.hidden ? 'Hidden from visitors — click to show' : 'Visible — click to hide from visitors'}">
+          ${p.hidden
+            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path><path d="M1 1l22 22"></path></svg>'
+            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'}
+        </button>
         <button class="icon-btn" data-edit="${p.id}" aria-label="Edit">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
         </button>
@@ -640,7 +655,7 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
       .filter(o => o.method && o.method.trim() && o.price != null && !isNaN(o.price))
       .map(o => ({ method: o.method.trim(), package: o.package || 'Envelope package', price: Number(o.price) }));
 
-    const record = { id, name, story: fStory.value.trim(), tier: draftTier, priceOptions: cleanPriceOptions, images, achievers };
+    const record = { ...(existingPattern || {}), id, name, story: fStory.value.trim(), tier: draftTier, priceOptions: cleanPriceOptions, images, achievers };
     if (editingId){
       const idx = PATTERNS.findIndex(p => p.id === id);
       PATTERNS[idx] = record;
@@ -667,6 +682,28 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
 list.addEventListener('click', async (e) => {
   const editId = e.target.closest('[data-edit]');
   const delId = e.target.closest('[data-delete]');
+  const hideId = e.target.closest('[data-togglehide]');
+  if (hideId){
+    const pat = PATTERNS.find(p => p.id === hideId.dataset.togglehide);
+    if (!pat) return;
+    const wasHidden = !!pat.hidden;
+    setSaving(true);
+    try {
+      if (wasHidden){ delete pat.hidden; } else { pat.hidden = true; }
+      const newContent = utf8ToBase64(JSON.stringify({ category: 'Graduations', patterns: PATTERNS }, null, 2));
+      const result = await ghPutFile('patterns.json', newContent, (wasHidden ? 'Show pattern: ' : 'Hide pattern: ') + pat.name, patternsSha);
+      patternsSha = result.content.sha;
+      renderList();
+      showToast(wasHidden ? pat.name + ' is now visible' : pat.name + ' is now hidden from visitors');
+    } catch (err){
+      if (wasHidden){ pat.hidden = true; } else { delete pat.hidden; }
+      renderList();
+      showToast('Could not update: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+    return;
+  }
   if (editId){
     openForm(PATTERNS.find(p => p.id === editId.dataset.edit));
   }
