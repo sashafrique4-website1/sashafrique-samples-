@@ -47,6 +47,22 @@
 .group-note{margin-top:14px;font-size:13px;color:#aaa;line-height:1.5;}
 .group-cta-wrap{text-align:center;margin-top:26px;}
 .group-cta{display:inline-block;background:#FAB202;color:#000;font-weight:700;font-size:16px;padding:14px 28px;border-radius:999px;text-decoration:none;}
+/*flyers*/
+/* ===== Flyer slider (mobile first) ===== */
+.flyers{position:relative;padding:18px 0 6px;}
+.flyer-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:0 19vw;scrollbar-width:none;}
+.flyer-track::-webkit-scrollbar{display:none;}
+.flyer{flex:0 0 62vw;max-width:300px;scroll-snap-align:center;border:0;padding:0;background:none;cursor:zoom-in;border-radius:14px;overflow:hidden;box-shadow:0 6px 22px rgba(0,0,0,.45);}
+.flyer img{display:block;width:100%;height:auto;aspect-ratio:1080/1398;object-fit:cover;}
+.flyer-dots{display:flex;justify-content:center;gap:8px;margin-top:12px;}
+.flyer-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:#555;cursor:pointer;transition:all .25s;}
+.flyer-dots button.on{background:#FAB202;width:22px;border-radius:4px;}
+.flyer-hint{text-align:center;color:#888;font:500 12px 'Inter',sans-serif;margin-top:8px;}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:999;display:none;align-items:center;justify-content:center;overflow:auto;touch-action:pinch-zoom pan-x pan-y;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:100%;max-height:100%;height:auto;}
+.lightbox-close{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#FAB202;color:#000;font-size:24px;font-weight:700;cursor:pointer;z-index:1000;}
+@media(min-width:761px){.flyer-track{padding:0 max(20px,calc(50vw - 520px));}.flyer{flex-basis:240px;}}
 @media(max-width:760px){.group-grid{grid-template-columns:1fr;}.promo-text{font-size:13px;}}
 </style>
 </head>
@@ -58,6 +74,18 @@
   </a>
   <a class="topbar-link" href="https://www.sashafrique.com/" target="_blank" rel="noopener">sashafrique.com</a>
 </div>
+
+<section class="flyers" aria-label="Sash Afrique flyers">
+  <div class="flyer-track" id="flyerTrack">
+    <button class="flyer" type="button"><img src="flyer-1.jpg" alt="Nobody saw the nights you almost gave up. Let the sash tell the story." loading="eager"></button>
+    <button class="flyer" type="button"><img src="flyer-2.jpg" alt="One day your child will ask about this photo. Let the sash tell the story." loading="lazy"></button>
+    <button class="flyer" type="button"><img src="flyer-3.jpg" alt="You welcomed them into a moment, let them keep the memory. Let the sash tell the story." loading="lazy"></button>
+    <button class="flyer" type="button"><img src="flyer-4.jpg" alt="Your pageant deserves to be remembered. Let the sash tell the story." loading="lazy"></button>
+  </div>
+  <div class="flyer-dots" id="flyerDots"></div>
+  <div class="flyer-hint">Swipe to see more · Tap to view full size</div>
+</section>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true"><button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button><img id="lightboxImg" alt=""></div>
 
 <section class="hero">
   <div class="hero-eyebrow">Pattern Gallery</div>
@@ -280,6 +308,30 @@ document.addEventListener('selectstart', e => {
     out.innerHTML = `A group of <strong>${n}</strong> gets <strong>${tier.percent}% off</strong>. On a ${fmt(G.examplePrice)} sash that is ${fmt(each)} each, saving your group <strong>${fmt(saved)}</strong> in total.` +
       (next ? ` Add ${next.min - n} more to reach <strong>${next.percent}% off</strong>.` : '');
   });
+})();
+</script>
+
+<script>
+/* ===== Flyer slider ===== */
+(function(){
+  const track=document.getElementById('flyerTrack'); if(!track) return;
+  const cards=[...track.querySelectorAll('.flyer')], dotsEl=document.getElementById('flyerDots');
+  const lb=document.getElementById('lightbox'), lbImg=document.getElementById('lightboxImg');
+  let cur=0, paused=false, resume;
+  cards.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Flyer '+(i+1));b.onclick=()=>{go(i);hold();};dotsEl.appendChild(b);});
+  const dots=[...dotsEl.children];
+  function mark(i){cur=i;dots.forEach((d,k)=>d.classList.toggle('on',k===i));}
+  function go(i){const c=cards[i];track.scrollTo({left:c.offsetLeft-(track.clientWidth-c.clientWidth)/2,behavior:'smooth'});mark(i);}
+  function hold(){paused=true;clearTimeout(resume);resume=setTimeout(()=>paused=false,8000);}
+  track.addEventListener('scroll',()=>{const mid=track.scrollLeft+track.clientWidth/2;let best=0,bd=1e9;cards.forEach((c,k)=>{const d=Math.abs(c.offsetLeft+c.clientWidth/2-mid);if(d<bd){bd=d;best=k;}});mark(best);},{passive:true});
+  ['touchstart','pointerdown','wheel'].forEach(ev=>track.addEventListener(ev,hold,{passive:true}));
+  setInterval(()=>{if(!paused&&!lb.classList.contains('open')&&!document.hidden) go((cur+1)%cards.length);},5000);
+  cards.forEach(c=>c.addEventListener('click',()=>{const im=c.querySelector('img');lbImg.src=im.src;lbImg.alt=im.alt;lb.classList.add('open');document.body.style.overflow='hidden';}));
+  function close(){lb.classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('lightboxClose').onclick=close;
+  lb.addEventListener('click',e=>{if(e.target===lb)close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  mark(0);
 })();
 </script>
 </body>
