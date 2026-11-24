@@ -587,28 +587,6 @@
       "achievers": []
     },
     {
-      "id": "philip-gbeho",
-      "name": "Philip Gbeho",
-      "story": "A pattern of national pride, for the graduate whose achievement becomes part of a larger, shared story.",
-      "tier": "standard",
-      "priceOptions": [
-        {
-          "method": "Embroidery inscription",
-          "package": "Envelope package",
-          "price": 120
-        },
-        {
-          "method": "Woven inscription",
-          "package": "Box package",
-          "price": 150
-        }
-      ],
-      "images": [
-        "philip-gbeho.jpeg"
-      ],
-      "achievers": []
-    },
-    {
       "id": "premium-kente-rwe",
       "name": "Premium Kente RWE",
       "story": "A premium kente colorway carrying Rwanda's palette, for the graduate celebrating cross-border African pride.",
