@@ -247,50 +247,6 @@
       ]
     },
     {
-      "id": "ellen-johnson-sirleaf",
-      "name": "Ellen Johnson Sirleaf",
-      "story": "A pattern of firsts and quiet resolve, honouring the graduate who breaks ground for everyone coming behind them.",
-      "tier": "standard",
-      "priceOptions": [
-        {
-          "method": "Embroidery inscription",
-          "package": "Envelope package",
-          "price": 120
-        },
-        {
-          "method": "Woven inscription",
-          "package": "Box package",
-          "price": 150
-        }
-      ],
-      "images": [
-        "ellen-johnson-sirleaf.jpg"
-      ],
-      "achievers": []
-    },
-    {
-      "id": "tetteh-quarshie",
-      "name": "Tetteh Quarshie",
-      "story": "Rooted in enterprise and legacy-building, this pattern celebrates the graduate planting seeds for generations ahead.",
-      "tier": "standard",
-      "priceOptions": [
-        {
-          "method": "Embroidery inscription",
-          "package": "Envelope package",
-          "price": 120
-        },
-        {
-          "method": "Woven inscription",
-          "package": "Box package",
-          "price": 150
-        }
-      ],
-      "images": [
-        "tetteh-quarshie.jpg"
-      ],
-      "achievers": []
-    },
-    {
       "id": "jomo-kenyatta",
       "name": "Jomo Kenyatta",
       "story": "A founder's pattern — steady, deliberate, and built for the graduate laying the first stones of something lasting.",
@@ -575,28 +531,6 @@
       "achievers": []
     },
     {
-      "id": "paul-biya",
-      "name": "Paul Biya",
-      "story": "Woven for endurance and steadiness, this pattern marks the graduate who plays the long game with quiet confidence.",
-      "tier": "standard",
-      "priceOptions": [
-        {
-          "method": "Embroidery inscription",
-          "package": "Envelope package",
-          "price": 120
-        },
-        {
-          "method": "Woven inscription",
-          "package": "Box package",
-          "price": 150
-        }
-      ],
-      "images": [
-        "paul-biya.jpeg"
-      ],
-      "achievers": []
-    },
-    {
       "id": "ephraim-amu",
       "name": "Ephraim Amu",
       "story": "A composer's pattern — rhythmic and intentional, celebrating the graduate whose discipline turned practice into artistry.",
@@ -632,40 +566,6 @@
       ],
       "images": [
         "premium-kente-sene.jpg"
-      ],
-      "achievers": []
-    },
-    {
-      "id": "premium-kente-nig",
-      "name": "Premium Kente Nig",
-      "story": "A premium kente colorway carrying Nigeria's palette, for the graduate celebrating cross-border African pride.",
-      "tier": "premium",
-      "priceOptions": [
-        {
-          "method": "Woven or embroidery inscription",
-          "package": "Box package",
-          "price": 220
-        }
-      ],
-      "images": [
-        "premium-kente-nig.jpg"
-      ],
-      "achievers": []
-    },
-    {
-      "id": "premium-kente-uga",
-      "name": "Premium Kente Uga",
-      "story": "A premium kente colorway carrying Uganda's palette, for the graduate celebrating cross-border African pride.",
-      "tier": "premium",
-      "priceOptions": [
-        {
-          "method": "Woven or embroidery inscription",
-          "package": "Box package",
-          "price": 220
-        }
-      ],
-      "images": [
-        "premium-kente-uga.jpeg"
       ],
       "achievers": []
     },
@@ -876,23 +776,6 @@
       ],
       "images": [
         "opoku-ware.jpeg"
-      ],
-      "achievers": []
-    },
-    {
-      "id": "premium-kente-emerald",
-      "name": "Premium Kente Emerald",
-      "story": "A premium colorway in emerald and cream, for the graduate drawn to a cooler, more understated palette.",
-      "tier": "premium",
-      "priceOptions": [
-        {
-          "method": "Woven or embroidery inscription",
-          "package": "Box package",
-          "price": 220
-        }
-      ],
-      "images": [
-        "premium-kente-emerald.jpg"
       ],
       "achievers": []
     },
